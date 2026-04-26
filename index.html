@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veiðikortið – Veiðisvæðakort</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">VK</div>
+  <h1>Veiðikortið &mdash; <em>Veiðisvæðakort</em></h1>
+  <span class="header-tagline">38 veiðisvæði yfir allt land</span>
+  <span class="result-count" id="resultCount">38 svæði</span>
+</header>
+
+<div class="app-body">
+  <!-- Filter sidebar -->
+  <div class="filters">
+    <div class="filter-section">
+      <h3>Landssvæði</h3>
+      <div class="region-pills" id="regionPills">
+        <button class="pill active" data-region="all">Allt land</button>
+        <button class="pill" data-region="Suðurland">Suðurland</button>
+        <button class="pill" data-region="Vesturland">Vesturland</button>
+        <button class="pill" data-region="Norðurland">Norðurland</button>
+        <button class="pill" data-region="Austurland">Austurland</button>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <h3>Veiðiskilyrði</h3>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          Næturveiðar
+          <small>Veiðar eftir kl. 22</small>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleNight">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          Sólarhringsveiðar
+          <small>24h leyfilegar</small>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggle24h">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          Tjaldmöguleikar
+          <small>Tjaldstæði á svæðinu</small>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleCamping">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          Opið allt árið
+          <small>Engin lokun á vetrum</small>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleAllYear">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <h3>Opið á þessum mánuði</h3>
+      <div class="month-row" id="monthBtns">
+        <button class="month-btn" data-month="4">Apr</button>
+        <button class="month-btn" data-month="5">Maí</button>
+        <button class="month-btn" data-month="6">Jún</button>
+        <button class="month-btn" data-month="7">Júl</button>
+        <button class="month-btn" data-month="8">Ágú</button>
+        <button class="month-btn" data-month="9">Sep</button>
+        <button class="month-btn" data-month="10">Okt</button>
+        <button class="month-btn" data-month="11">Nóv</button>
+      </div>
+    </div>
+
+    <button class="reset-btn" id="resetBtn">↺ Hreinsa síur</button>
+  </div>
+
+  <!-- Map -->
+  <div class="map-container">
+    <div id="map"></div>
+    <div class="map-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#1B3A2F"></div> Venjulegt veiðisvæði</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#C8963C"></div> 24h / Næturveiðar</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#bbb"></div> Utan síu</div>
+    </div>
+    <div class="empty-overlay" id="emptyOverlay">
+      <strong>Engin svæði fundust</strong>
+      <p>Prófaðu að breyta síunum</p>
+    </div>
+  </div>
+
+  <!-- Detail panel -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-inner" id="detailInner"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
