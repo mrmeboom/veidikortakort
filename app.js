@@ -272,5 +272,32 @@ const style = document.createElement('style');
 style.textContent = `.vk-tooltip { background: #313b4d; color: white; border: none; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); } .vk-tooltip::before { display: none; }`;
 document.head.appendChild(style);
 
+// Language selector
+const langBtn = document.getElementById('langBtn');
+const langDropdown = document.getElementById('langDropdown');
+
+langBtn.addEventListener('click', () => {
+  langDropdown.classList.toggle('show');
+});
+
+document.querySelectorAll('.lang-option').forEach(option => {
+  option.addEventListener('click', () => {
+    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
+    option.classList.add('active');
+    const flag = option.querySelector('.lang-flag').textContent;
+    const code = option.querySelector('.lang-code').textContent;
+    langBtn.querySelector('.lang-flag').textContent = flag;
+    langBtn.querySelector('.lang-code').textContent = code;
+    langDropdown.classList.remove('show');
+  });
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.lang-selector')) {
+    langDropdown.classList.remove('show');
+  }
+});
+
 // Initial render
 updateMap();

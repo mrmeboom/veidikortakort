@@ -12,10 +12,26 @@
 <body>
 
 <header>
-  <div class="logo">VK</div>
-  <h1>Veiðikortið &mdash; <em>Veiðisvæðakort</em></h1>
-  <span class="header-tagline">38 veiðisvæði yfir allt land</span>
-  <span class="result-count" id="resultCount">38 svæði</span>
+  <img src="assets/icon.png" alt="Veiðikortakort" class="logo-img">
+  <h1>Veiðikortakort &mdash; <em>A fisherman's best friend</em></h1>
+  <div class="lang-selector">
+    <button class="lang-btn" id="langBtn">
+      <span class="lang-flag">🇬🇧</span>
+      <span class="lang-code">ENG</span>
+      <span class="lang-arrow">▼</span>
+    </button>
+    <div class="lang-dropdown" id="langDropdown">
+      <div class="lang-option" data-lang="da"><span class="lang-flag">🇩🇰</span><span class="lang-code">DA</span></div>
+      <div class="lang-option" data-lang="nl"><span class="lang-flag">🇳🇱</span><span class="lang-code">NL</span></div>
+      <div class="lang-option active" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-code">ENG</span></div>
+      <div class="lang-option" data-lang="fr"><span class="lang-flag">🇫🇷</span><span class="lang-code">FR</span></div>
+      <div class="lang-option" data-lang="de"><span class="lang-flag">🇩🇪</span><span class="lang-code">DE</span></div>
+      <div class="lang-option" data-lang="is"><span class="lang-flag">🇮🇸</span><span class="lang-code">IS</span></div>
+      <div class="lang-option" data-lang="it"><span class="lang-flag">🇮🇹</span><span class="lang-code">IT</span></div>
+      <div class="lang-option" data-lang="pl"><span class="lang-flag">🇵🇱</span><span class="lang-code">PL</span></div>
+      <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-code">ES</span></div>
+    </div>
+  </div>
 </header>
 
 <div class="app-body">
