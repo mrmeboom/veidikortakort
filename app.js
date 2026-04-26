@@ -33,7 +33,7 @@ const markers = {};
 
 function createMarkerIcon(loc, active = false, dimmed = false) {
   const isSpecial = loc.nightFishing && loc.fullDay;
-  const color = dimmed ? '#bbb' : active ? '#40916C' : (isSpecial ? '#C8963C' : '#1B3A2F');
+  const color = dimmed ? '#a3adbc' : active ? '#c62a27' : (isSpecial ? '#313b4d' : '#3972b9');
   const scale = active ? 1.25 : 1;
   return L.divIcon({
     className: '',
@@ -269,7 +269,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
 
 // Tooltip styling
 const style = document.createElement('style');
-style.textContent = `.vk-tooltip { background: #1B3A2F; color: white; border: none; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); } .vk-tooltip::before { display: none; }`;
+style.textContent = `.vk-tooltip { background: #313b4d; color: white; border: none; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); } .vk-tooltip::before { display: none; }`;
 document.head.appendChild(style);
 
 // Initial render

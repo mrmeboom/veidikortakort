@@ -1,25 +1,48 @@
 :root {
-  --green-dark: #1B3A2F;
-  --green-mid: #2D6A4F;
-  --green-accent: #40916C;
-  --green-light: #74C69D;
-  --green-pale: #D8F3DC;
-  --green-bg: #F0F7F2;
-  --gold: #C8963C;
-  --gold-light: #F0C96C;
-  --white: #FAFCFB;
-  --text: #1B3A2F;
-  --text-muted: #5A7A6A;
-  --border: #C8DDD2;
-  --shadow: rgba(27,58,47,0.12);
+  /* ── Brand foundations ── */
+  --blue-dark:    #313b4d;
+  --blue-mid:     #3972b9;
+  --blue-muted:   #a3adbc;
+  --blue-pale:    #e8f0fb;
+  --red:          #c62a27;
+  --red-pale:     #fbeaea;
+
+  /* ── Surfaces ── */
+  --bg:           #f4f6f9;
+  --surface:      #ffffff;
+  --surface-raised: #ffffff;
+  --border:       #dde3ed;
+  --border-strong: #a3adbc;
+
+  /* ── Text ── */
+  --text:         #313b4d;
+  --text-muted:   #6b7a92;
+  --text-faint:   #a3adbc;
+  --text-on-dark: #ffffff;
+  --text-on-blue: #ffffff;
+
+  /* ── Map markers ── */
+  --marker-default:  #3972b9;
+  --marker-active:   #c62a27;
+  --marker-night:    #313b4d;
+  --marker-dimmed:   #a3adbc;
+
+  /* ── Interactive ── */
+  --focus:        #3972b9;
+  --hover-bg:     #e8f0fb;
+  --active-bg:    #313b4d;
+  --active-text:  #ffffff;
+  --toggle-on:    #3972b9;
+  --toggle-off:   #dde3ed;
+  --shadow: rgba(49,59,77,0.12);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--green-bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
 /* ── Header ── */
 header {
-  background: var(--green-dark);
-  color: var(--white);
+  background: var(--blue-dark);
+  color: var(--text-on-dark);
   display: flex;
   align-items: center;
   gap: 16px;
@@ -31,12 +54,12 @@ header {
 }
 .logo {
   width: 36px; height: 36px;
-  background: var(--green-accent);
+  background: var(--blue-mid);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Fraunces', serif;
   font-weight: 600; font-size: 14px;
-  color: var(--white);
+  color: var(--text-on-dark);
   flex-shrink: 0;
 }
 header h1 {
@@ -44,16 +67,16 @@ header h1 {
   font-size: 18px; font-weight: 400;
   letter-spacing: 0.02em;
 }
-header h1 em { font-style: italic; color: var(--green-light); }
+header h1 em { font-style: italic; color: var(--blue-muted); }
 .header-tagline {
-  font-size: 12px; color: var(--green-light); opacity: 0.8;
+  font-size: 12px; color: var(--blue-muted); opacity: 0.8;
   margin-left: auto;
   display: none;
 }
 @media (min-width: 600px) { .header-tagline { display: block; } }
 .result-count {
-  background: var(--green-accent);
-  color: var(--white);
+  background: var(--blue-mid);
+  color: var(--text-on-blue);
   font-size: 11px; font-weight: 600;
   padding: 3px 9px; border-radius: 20px;
   margin-left: auto;
@@ -66,7 +89,7 @@ header h1 em { font-style: italic; color: var(--green-light); }
 /* ── Filter sidebar ── */
 .filters {
   width: 240px;
-  background: var(--white);
+  background: var(--surface);
   border-right: 1px solid var(--border);
   overflow-y: auto;
   flex-shrink: 0;
@@ -95,14 +118,14 @@ header h1 em { font-style: italic; color: var(--green-light); }
   transition: all 0.15s;
   white-space: nowrap;
 }
-.pill:hover { border-color: var(--green-accent); color: var(--green-accent); }
-.pill.active { background: var(--green-dark); border-color: var(--green-dark); color: var(--white); }
+.pill:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
+.pill.active { background: var(--blue-dark); border-color: var(--blue-dark); color: var(--text-on-dark); }
 
 /* Toggle switches */
 .toggle-row {
   display: flex; align-items: center; justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid var(--green-bg);
+  border-bottom: 1px solid var(--border);
 }
 .toggle-row:last-child { border-bottom: none; }
 .toggle-label { font-size: 13px; color: var(--text); }
@@ -126,7 +149,7 @@ header h1 em { font-style: italic; color: var(--green-light); }
   transition: transform 0.2s;
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
-.toggle input:checked ~ .toggle-track { background: var(--green-accent); }
+.toggle input:checked ~ .toggle-track { background: var(--toggle-on); }
 .toggle input:checked ~ .toggle-thumb { transform: translateX(16px); }
 
 /* Month slider */
@@ -145,13 +168,13 @@ header h1 em { font-style: italic; color: var(--green-light); }
   transition: all 0.15s;
   font-family: 'DM Sans', sans-serif;
 }
-.month-btn:hover { border-color: var(--green-accent); }
-.month-btn.active { background: var(--green-dark); border-color: var(--green-dark); color: white; }
+.month-btn:hover { border-color: var(--blue-mid); }
+.month-btn.active { background: var(--blue-dark); border-color: var(--blue-dark); color: var(--text-on-dark); }
 
 .reset-btn {
   width: 100%;
   padding: 9px;
-  background: var(--green-bg);
+  background: var(--hover-bg);
   border: 1.5px solid var(--border);
   border-radius: 8px;
   font-family: 'DM Sans', sans-serif;
@@ -160,17 +183,17 @@ header h1 em { font-style: italic; color: var(--green-light); }
   cursor: pointer;
   transition: all 0.15s;
 }
-.reset-btn:hover { background: var(--green-pale); border-color: var(--green-accent); color: var(--green-dark); }
+.reset-btn:hover { background: var(--blue-pale); border-color: var(--blue-mid); color: var(--blue-dark); }
 
 /* ── Map ── */
 .map-container { flex: 1; position: relative; overflow: hidden; }
 #map { width: 100%; height: 100%; }
-.leaflet-container { background: #e8f0eb; }
+.leaflet-container { background: var(--bg); }
 
 /* Custom marker */
 .vk-marker {
   width: 30px; height: 30px;
-  background: var(--green-dark);
+  background: var(--marker-default);
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
   border: 2.5px solid white;
@@ -180,10 +203,10 @@ header h1 em { font-style: italic; color: var(--green-light); }
   display: flex; align-items: center; justify-content: center;
   position: relative;
 }
-.vk-marker:hover { background: var(--green-accent); }
-.vk-marker.night { background: var(--gold); }
-.vk-marker.active { background: var(--green-accent); transform: rotate(-45deg) scale(1.25); }
-.vk-marker.dimmed { background: #bbb; opacity: 0.4; }
+.vk-marker:hover { background: var(--blue-mid); }
+.vk-marker.night { background: var(--marker-night); }
+.vk-marker.active { background: var(--marker-active); transform: rotate(-45deg) scale(1.25); }
+.vk-marker.dimmed { background: var(--marker-dimmed); opacity: 0.4; }
 
 .marker-inner {
   transform: rotate(45deg);
@@ -199,7 +222,7 @@ header h1 em { font-style: italic; color: var(--green-light); }
 /* ── Detail panel ── */
 .detail-panel {
   width: 0;
-  background: var(--white);
+  background: var(--surface);
   border-left: 1px solid var(--border);
   overflow-y: auto;
   flex-shrink: 0;
@@ -214,16 +237,16 @@ header h1 em { font-style: italic; color: var(--green-light); }
   top: 8px; right: 8px;
   width: 28px; height: 28px;
   border-radius: 50%;
-  background: var(--green-bg);
+  background: var(--hover-bg);
   border: none; cursor: pointer;
   font-size: 16px; color: var(--text-muted);
   display: flex; align-items: center; justify-content: center;
   transition: background 0.15s;
 }
-.detail-close:hover { background: var(--green-pale); }
+.detail-close:hover { background: var(--blue-pale); }
 
 .detail-hero {
-  background: var(--green-dark);
+  background: var(--blue-dark);
   margin: -20px -20px 16px;
   padding: 20px;
   position: relative;
@@ -232,7 +255,7 @@ header h1 em { font-style: italic; color: var(--green-light); }
   display: inline-block;
   font-size: 9px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.12em;
-  color: var(--green-light);
+  color: var(--blue-muted);
   margin-bottom: 6px;
 }
 .detail-name {
@@ -251,18 +274,18 @@ header h1 em { font-style: italic; color: var(--green-light); }
   font-size: 10px; font-weight: 600;
   white-space: nowrap;
 }
-.badge-night { background: var(--gold); color: var(--green-dark); }
-.badge-24h { background: rgba(116,198,157,0.3); color: var(--green-light); }
-.badge-camping { background: rgba(255,255,255,0.15); color: white; }
-.badge-allyear { background: rgba(116,198,157,0.3); color: var(--green-light); }
-.badge-flyonly { background: rgba(200,150,60,0.3); color: var(--gold-light); }
+.badge-night { background: var(--marker-night); color: var(--text-on-dark); }
+.badge-24h { background: var(--red-pale); color: var(--red); }
+.badge-camping { background: rgba(255,255,255,0.15); color: var(--text-on-dark); }
+.badge-allyear { background: var(--blue-pale); color: var(--blue-dark); }
+.badge-flyonly { background: var(--red-pale); color: var(--red); }
 
 .detail-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 10px; margin-bottom: 16px;
 }
 .info-card {
-  background: var(--green-bg);
+  background: var(--hover-bg);
   border-radius: 8px;
   padding: 10px;
 }
@@ -297,20 +320,20 @@ header h1 em { font-style: italic; color: var(--green-light); }
   display: block;
   text-align: center;
   padding: 10px;
-  background: var(--green-dark);
-  color: white;
+  background: var(--blue-dark);
+  color: var(--text-on-dark);
   text-decoration: none;
   border-radius: 8px;
   font-size: 12px; font-weight: 600;
   margin-top: 16px;
   transition: background 0.15s;
 }
-.detail-link:hover { background: var(--green-mid); }
+.detail-link:hover { background: var(--blue-mid); }
 
 /* Coords display */
 .coords-text {
   font-size: 10px;
-  color: var(--green-light);
+  color: var(--blue-muted);
   margin-top: 4px;
   opacity: 0.7;
 }
