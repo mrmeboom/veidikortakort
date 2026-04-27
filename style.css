@@ -277,15 +277,16 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
 /* ── Detail panel ── */
 .detail-panel {
   width: 0;
+  min-width: 0;
   background: var(--surface);
   border-left: 1px solid var(--border);
   overflow-y: auto;
   flex-shrink: 0;
-  transition: width 0.25s ease;
+  transition: width 0.25s ease, min-width 0.25s ease;
   z-index: 50;
 }
-.detail-panel.open { width: 320px; }
-.detail-inner { padding: 20px; min-width: 320px; }
+.detail-panel.open { width: 320px; min-width: 320px; }
+.detail-inner { padding: 20px; }
 
 .detail-close {
   position: absolute;
