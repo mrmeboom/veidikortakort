@@ -127,6 +127,7 @@ function selectLocation(id) {
   if (loc.camping) badges += `<span class="badge badge-camping">⛺ Tjaldstæði</span>`;
   if (loc.allYear) badges += `<span class="badge badge-allyear">📅 Opið árið</span>`;
   if (loc.flyOnly) badges += `<span class="badge badge-flyonly">🪰 Fluga eingöngu</span>`;
+  if (loc.fourByFour) badges += `<span class="badge badge-4x4">🚙 Krefst jeppa</span>`;
 
   document.getElementById('detailInner').innerHTML = `
     <div class="detail-hero">
@@ -150,6 +151,26 @@ function selectLocation(id) {
       <div class="info-card full">
         <div class="label">Fisktegundir</div>
         <div class="value">${loc.fishSpecies}</div>
+      </div>` : ''}
+      ${loc.bestTime ? `
+      <div class="info-card full">
+        <div class="label">Besti veiðitíminn</div>
+        <div class="value">${loc.bestTime}</div>
+      </div>` : ''}
+      ${loc.legalBaits ? `
+      <div class="info-card full">
+        <div class="label">Lögleg agn</div>
+        <div class="value">${loc.legalBaits}</div>
+      </div>` : ''}
+      ${loc.distance ? `
+      <div class="info-card">
+        <div class="label">Fjarlægð frá RVK</div>
+        <div class="value">${loc.distance}</div>
+      </div>` : ''}
+      ${loc.sizeDepth ? `
+      <div class="info-card">
+        <div class="label">Stærð/Dýpt</div>
+        <div class="value">${loc.sizeDepth}</div>
       </div>` : ''}
     </div>
 
@@ -206,13 +227,76 @@ function closeDetail() {
 // UI CONTROLS
 // ─────────────────────────────────────────────
 
+// URL parameter handling
+function updateURL() {
+  const params = new URLSearchParams();
+  if (state.region !== 'all') params.set('region', state.region);
+  if (state.nightFishing) params.set('nightFishing', 'true');
+  if (state.fullDay) params.set('fullDay', 'true');
+  if (state.camping) params.set('camping', 'true');
+  if (state.allYear) params.set('allYear', 'true');
+  if (state.month !== null) params.set('month', state.month);
+  const newURL = params.toString() ? '?' + params.toString() : window.location.pathname;
+  window.history.replaceState({}, '', newURL);
+}
+
+function loadURLParams() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('region')) {
+    state.region = params.get('region');
+    const pill = document.querySelector(`.pill[data-region="${state.region}"]`);
+    if (pill) {
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    }
+  }
+  if (params.has('nightFishing')) {
+    state.nightFishing = params.get('nightFishing') === 'true';
+    document.getElementById('toggleNight').checked = state.nightFishing;
+  }
+  if (params.has('fullDay')) {
+    state.fullDay = params.get('fullDay') === 'true';
+    document.getElementById('toggle24h').checked = state.fullDay;
+  }
+  if (params.has('camping')) {
+    state.camping = params.get('camping') === 'true';
+    document.getElementById('toggleCamping').checked = state.camping;
+  }
+  if (params.has('allYear')) {
+    state.allYear = params.get('allYear') === 'true';
+    document.getElementById('toggleAllYear').checked = state.allYear;
+  }
+  if (params.has('month')) {
+    state.month = parseInt(params.get('month'));
+    const btn = document.querySelector(`.month-btn[data-month="${state.month}"]`);
+    if (btn) {
+      document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  }
+}
+
+// Load URL parameters on page load
+loadURLParams();
+
+// Debounce helper
+let debounceTimer;
+function debounceUpdate() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    updateMap();
+    updateURL();
+  }, 100);
+}
+
 // Region pills
 document.getElementById('regionPills').addEventListener('click', e => {
-  if (!e.target.matches('.pill')) return;
+  const pill = e.target.closest('.pill');
+  if (!pill) return;
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  e.target.classList.add('active');
-  state.region = e.target.dataset.region;
-  updateMap();
+  pill.classList.add('active');
+  state.region = pill.dataset.region;
+  debounceUpdate();
 });
 
 // Toggles
@@ -222,7 +306,7 @@ document.getElementById('toggleNight').addEventListener('change', e => {
     document.getElementById('toggle24h').checked = false;
     state.fullDay = false;
   }
-  updateMap();
+  debounceUpdate();
 });
 document.getElementById('toggle24h').addEventListener('change', e => {
   state.fullDay = e.target.checked;
@@ -230,30 +314,31 @@ document.getElementById('toggle24h').addEventListener('change', e => {
     document.getElementById('toggleNight').checked = false;
     state.nightFishing = false;
   }
-  updateMap();
+  debounceUpdate();
 });
 document.getElementById('toggleCamping').addEventListener('change', e => {
   state.camping = e.target.checked;
-  updateMap();
+  debounceUpdate();
 });
 document.getElementById('toggleAllYear').addEventListener('change', e => {
   state.allYear = e.target.checked;
-  updateMap();
+  debounceUpdate();
 });
 
 // Month buttons
 document.getElementById('monthBtns').addEventListener('click', e => {
-  if (!e.target.matches('.month-btn')) return;
-  const m = parseInt(e.target.dataset.month);
+  const btn = e.target.closest('.month-btn');
+  if (!btn) return;
+  const m = parseInt(btn.dataset.month);
   if (state.month === m) {
     state.month = null;
-    e.target.classList.remove('active');
+    btn.classList.remove('active');
   } else {
     document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
-    e.target.classList.add('active');
+    btn.classList.add('active');
     state.month = m;
   }
-  updateMap();
+  debounceUpdate();
 });
 
 // Reset

@@ -173,6 +173,7 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
   color: var(--text);
   transition: all 0.15s;
   white-space: nowrap;
+  user-select: none;
 }
 .pill:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
 .pill.active { background: var(--blue-dark); border-color: var(--blue-dark); color: var(--text-on-dark); }
@@ -223,6 +224,7 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
   color: var(--text-muted);
   transition: all 0.15s;
   font-family: 'DM Sans', sans-serif;
+  user-select: none;
 }
 .month-btn:hover { border-color: var(--blue-mid); }
 .month-btn.active { background: var(--blue-dark); border-color: var(--blue-dark); color: var(--text-on-dark); }
@@ -339,6 +341,7 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
 .badge-camping { background: rgba(255,255,255,0.15); color: var(--text-on-dark); }
 .badge-allyear { background: var(--blue-pale); color: var(--blue-dark); }
 .badge-flyonly { background: var(--red-pale); color: var(--red); }
+.badge-4x4 { background: var(--orange-pale); color: var(--orange); }
 
 .detail-grid {
   display: grid; grid-template-columns: 1fr 1fr;
