@@ -2,41 +2,41 @@
 
 | Lake Name | Latitude | Longitude |
 |---|---|---|
-| Elliðavatn | 64.0889107 | -21.7816106 |
-| Langavatn | 64.7885125 | -21.780871 |
-| Baulárvallavatn | 64.9120002 | -22.8856942 |
-| Arnarvatn | 66.50586666666666 | -16.124133333333333 |
-| Berufjarðarvatn | 65.5517541 | -22.1092893 |
-| Frostastaðavatn | 64.02048959999999 | -19.063796 |
-| Eystra Gíslholtsvatn | 63.95437130000001 | -20.4778163 |
-| Haugatjarnir | 64.98686666666667 | -14.6145 |
-| Haukadalsvatn | 65.0547319 | -21.625816 |
-| Hlíðarvatn | 64.8967352 | -22.1640707 |
-| Hólmavatn | 64.8046531 | -20.8993123 |
-| Hólmavatn | 65.23808333333334 | -21.369966666666667 |
-| Hraunhafnarvatn | 66.5113889 | -16.0358333 |
-| Hraunsfjarðarvatn | 64.9189696 | -22.9202573 |
-| Hraunsfjörður | 64.92139039999999 | -23.0156326 |
-| Hreðavatn | 64.75 | -21.6 |
-| Kleifarvatn | 63.9257301 | -21.9715926 |
-| Kleifarvatn in Breiðdalur | 64.824 | -14.211016666666668 |
-| Laxárvatn in Dalarna | 65.21283333333334 | -21.32935 |
-| Ljósavatn | 65.70721666666667 | -17.67965 |
-| Meðalfellsvatn | 64.3131026 | -21.5983482 |
-| Mjóavatn | 64.7722222 | -20.9633333 |
-| Sauðlauksdalsvatn | 65.54295 | -23.986483333333332 |
-| Þveit | 64.95981666666667 | -14.63455 |
-| Sléttuhlíðarvatn | 66.04235369999999 | -19.3363963 |
-| Svínavatn | 65.5312494 | -20.0874119 |
-| Syðridalsvatn | 66.12976666666667 | -23.248333333333335 |
-| Sænautavatn | 65.2791976 | -15.5173195 |
-| Úlfljótsvatn | 64.10699579999999 | -21.0441797 |
-| Vatnsdalsvatn | 65.60481419999999 | -23.1102536 |
-| Vestmannsvatn | 65.7958333 | -17.4161111 |
-| Vifilsstadavatn | 64.07919199999999 | -21.8736447 |
-| Þingvallavatn | 64.1953931 | -21.1374344 |
-| Þveit | 64.34421666666667 | -15.256216666666667 |
-| Æðarvatn | 66.51908333333333 | -16.102183333333333 |
-| Ölvesvatn | 65.96811666666666 | -20.049433333333333 |
-| Urriðavatn | 65.309645 | -14.4429207 |
-| from where the outflow of Urriðavatnslækur flows. | N/A | N/A |
+| Arnarvatn á Melrakkasléttu | 66.506 | -16.124 |
+| Baulárvallarvatn | 64.912 | -22.886 |
+| Berufjarðarvatn | 65.552 | -22.109 |
+| Elliðavatn | 64.089 | -21.782 |
+| Frostastaðavatn | 64.020 | -19.064 |
+| Gíslholtsvatn | 63.954 | -20.478 |
+| Haugatjarnir | 64.987 | -14.615 |
+| Haukadalsvatn | 65.055 | -21.626 |
+| Hítarvatn | 64.867 | -22.001 |
+| Hlíðarvatn í Hnappadal | 64.897 | -22.164 |
+| Hólmavatn í Dölum | 65.238 | -21.370 |
+| Hraunhafnarvatn | 66.511 | -16.036 |
+| Hraunsfjarðarvatn | 64.919 | -22.920 |
+| Hraunsfjörður | 64.945 | -23.015 |
+| Hreðavatn | 64.750 | -21.600 |
+| Kleifarvatn á Reykjanesi | 63.926 | -21.972 |
+| Langavatn | 64.789 | -21.781 |
+| Laxárvatn í Dölum | 65.213 | -21.329 |
+| Leirvogsvatn | 64.199 | -21.465 |
+| Ljósavatn | 65.707 | -17.680 |
+| Meðalfellsvatn | 64.313 | -21.598 |
+| Sauðlauksdalsvatn | 65.543 | -23.986 |
+| Skriðuvatn | 64.960 | -14.635 |
+| Sléttuhlíðarvatn | 66.042 | -19.336 |
+| Svínavatn í Húnaþingi | 65.531 | -20.087 |
+| Syðridalsvatn | 66.130 | -23.248 |
+| Sænautavatn | 65.279 | -15.517 |
+| Urriðavatn | 65.310 | -14.443 |
+| Úlfljótsvatn | 64.107 | -21.044 |
+| Vatnsdalsvatn | 65.605 | -23.110 |
+| Vestmannsvatn | 65.796 | -17.416 |
+| Vífilsstaðavatn | 64.079 | -21.874 |
+| Þingvallavatn | 64.195 | -21.137 |
+| Þveit | 64.338 | -15.255 |
+| Ölvesvatn – Skagaheiði | 65.968 | -20.049 |
+| Æðarvatn | 66.519 | -16.102 |
+| Ófærur og Blautulón | 64.024 | -18.527 |
+| Hagavík við Þingvallavatn | 64.126 | -21.163 |
