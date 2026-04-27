@@ -127,7 +127,7 @@ function selectLocation(id) {
   if (loc.camping) badges += `<span class="badge badge-camping">⛺ Tjaldstæði</span>`;
   if (loc.allYear) badges += `<span class="badge badge-allyear">📅 Opið árið</span>`;
   if (loc.flyOnly) badges += `<span class="badge badge-flyonly">🪰 Fluga eingöngu</span>`;
-  if (loc.fourByFour) badges += `<span class="badge badge-4x4">🚙 4x4 eingöngu</span>`;
+  if (loc.fourByFour) badges += `<span class="badge badge-4x4">🚙 Krefst jeppa</span>`;
 
   document.getElementById('detailInner').innerHTML = `
     <div class="detail-hero">
