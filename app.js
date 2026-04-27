@@ -105,7 +105,6 @@ function updateMap() {
     markers[loc.id].setIcon(createMarkerIcon(loc, isActive, isDimmed));
   });
 
-  document.getElementById('resultCount').textContent = visible.length + ' svæði';
   const empty = document.getElementById('emptyOverlay');
   empty.classList.toggle('show', visible.length === 0);
 }
