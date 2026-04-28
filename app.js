@@ -23,7 +23,8 @@ let state = {
   camping: false,
   allYear: false,
   month: null,
-  activeId: null
+  activeId: null,
+  showLabels: false
 };
 
 // ─────────────────────────────────────────────
@@ -78,6 +79,102 @@ LOCATIONS.forEach(loc => {
 });
 
 // ─────────────────────────────────────────────
+// LOCATION LABELS
+// ─────────────────────────────────────────────
+const labelsContainer = document.getElementById('labelsContainer');
+const labelElements = {};
+const leaderLines = {};
+
+function renderLabels() {
+  if (!state.showLabels) {
+    labelsContainer.innerHTML = '';
+    return;
+  }
+
+  labelsContainer.innerHTML = '';
+  const mapBounds = map.getBounds();
+  const mapSize = map.getSize();
+  const viewportRect = { x: 0, y: 0, width: mapSize.x, height: mapSize.y };
+
+  const labelData = LOCATIONS.map(loc => {
+    const point = map.latLngToContainerPoint([loc.lat, loc.lng]);
+    return {
+      id: loc.id,
+      name: loc.name,
+      x: point.x,
+      y: point.y,
+      originalX: point.x,
+      originalY: point.y
+    };
+  }).filter(label => {
+    return label.x >= 0 && label.x <= mapSize.x && label.y >= 0 && label.y <= mapSize.y;
+  });
+
+  // Collision detection - nudge labels horizontally first, then vertically
+  const padding = 5;
+  for (let i = 0; i < labelData.length; i++) {
+    for (let j = i + 1; j < labelData.length; j++) {
+      const a = labelData[i];
+      const b = labelData[j];
+      
+      const dx = Math.abs(a.x - b.x);
+      const dy = Math.abs(a.y - b.y);
+      
+      if (dx < 60 && dy < 20) {
+        // Horizontal nudge first
+        if (a.x < b.x) {
+          a.x -= 30;
+          b.x += 30;
+        } else {
+          a.x += 30;
+          b.x -= 30;
+        }
+      }
+    }
+  }
+
+  // Create label elements
+  labelData.forEach(label => {
+    const labelEl = document.createElement('div');
+    labelEl.className = 'location-label';
+    labelEl.textContent = label.name;
+    labelEl.style.left = `${label.x}px`;
+    labelEl.style.top = `${label.y - 20}px`;
+    labelsContainer.appendChild(labelEl);
+
+    // Add leader line if moved significantly
+    const moveDistance = Math.abs(label.x - label.originalX);
+    if (moveDistance > 20) {
+      const line = document.createElement('div');
+      line.className = 'leader-line';
+      
+      const dot = document.createElement('div');
+      dot.className = 'leader-dot';
+      
+      const startX = label.originalX;
+      const startY = label.originalY - 15;
+      const endX = label.x;
+      const endY = label.y - 20;
+      
+      const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+      const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
+      
+      line.style.width = `${length}px`;
+      line.style.left = `${startX}px`;
+      line.style.top = `${startY}px`;
+      line.style.transform = `rotate(${angle}deg)`;
+      line.style.transformOrigin = '0 50%';
+      
+      dot.style.left = `${startX - 2}px`;
+      dot.style.top = `${startY - 2}px`;
+      
+      labelsContainer.appendChild(line);
+      labelsContainer.appendChild(dot);
+    }
+  });
+}
+
+// ─────────────────────────────────────────────
 // FILTERING
 // ─────────────────────────────────────────────
 function filterLocations() {
@@ -107,6 +204,8 @@ function updateMap() {
 
   const empty = document.getElementById('emptyOverlay');
   empty.classList.toggle('show', visible.length === 0);
+
+  renderLabels();
 }
 
 // ─────────────────────────────────────────────
@@ -236,6 +335,7 @@ function updateURL() {
   if (state.camping) params.set('camping', 'true');
   if (state.allYear) params.set('allYear', 'true');
   if (state.month !== null) params.set('month', state.month);
+  if (state.showLabels) params.set('showLabels', 'true');
   const newURL = params.toString() ? '?' + params.toString() : window.location.pathname;
   window.history.replaceState({}, '', newURL);
 }
@@ -273,6 +373,10 @@ function loadURLParams() {
       document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     }
+  }
+  if (params.has('showLabels')) {
+    state.showLabels = params.get('showLabels') === 'true';
+    document.getElementById('toggleLabels').checked = state.showLabels;
   }
 }
 
@@ -326,6 +430,11 @@ document.getElementById('toggleCamping').addEventListener('change', e => {
 });
 document.getElementById('toggleAllYear').addEventListener('change', e => {
   state.allYear = e.target.checked;
+  debounceUpdate();
+  syncMobileControls();
+});
+document.getElementById('toggleLabels').addEventListener('change', e => {
+  state.showLabels = e.target.checked;
   debounceUpdate();
   syncMobileControls();
 });
@@ -515,11 +624,13 @@ function syncMobileControls() {
   const toggle24hMobile = document.getElementById('toggle24hMobile');
   const toggleCampingMobile = document.getElementById('toggleCampingMobile');
   const toggleAllYearMobile = document.getElementById('toggleAllYearMobile');
+  const toggleLabelsMobile = document.getElementById('toggleLabelsMobile');
 
   if (toggleNightMobile) toggleNightMobile.checked = state.nightFishing;
   if (toggle24hMobile) toggle24hMobile.checked = state.fullDay;
   if (toggleCampingMobile) toggleCampingMobile.checked = state.camping;
   if (toggleAllYearMobile) toggleAllYearMobile.checked = state.allYear;
+  if (toggleLabelsMobile) toggleLabelsMobile.checked = state.showLabels;
 
   // Sync month buttons
   document.querySelectorAll('#monthBtnsMobile .month-btn').forEach(btn => {
@@ -539,11 +650,13 @@ function syncDesktopControls() {
   const toggle24h = document.getElementById('toggle24h');
   const toggleCamping = document.getElementById('toggleCamping');
   const toggleAllYear = document.getElementById('toggleAllYear');
+  const toggleLabels = document.getElementById('toggleLabels');
 
   if (toggleNight) toggleNight.checked = state.nightFishing;
   if (toggle24h) toggle24h.checked = state.fullDay;
   if (toggleCamping) toggleCamping.checked = state.camping;
   if (toggleAllYear) toggleAllYear.checked = state.allYear;
+  if (toggleLabels) toggleLabels.checked = state.showLabels;
 
   // Sync month buttons
   document.querySelectorAll('#monthBtns .month-btn').forEach(btn => {
@@ -610,6 +723,15 @@ if (toggleAllYearMobile) {
   });
 }
 
+const toggleLabelsMobile = document.getElementById('toggleLabelsMobile');
+if (toggleLabelsMobile) {
+  toggleLabelsMobile.addEventListener('change', e => {
+    state.showLabels = e.target.checked;
+    debounceUpdate();
+    syncDesktopControls();
+  });
+}
+
 // Mobile month buttons
 const monthBtnsMobile = document.getElementById('monthBtnsMobile');
 if (monthBtnsMobile) {
@@ -654,3 +776,7 @@ loadURLParams = function() {
 
 // Initial render
 updateMap();
+
+// Map event listeners for label recalculation
+map.on('moveend', renderLabels);
+map.on('zoomend', renderLabels);

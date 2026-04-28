@@ -56,6 +56,17 @@
       <h3>Veiðiskilyrði</h3>
       <div class="toggle-row">
         <div class="toggle-label">
+          Vatnsnöfn
+          <small>Sýna nöfn á korti</small>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleLabels">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
           Næturveiðar
           <small>Veiðar eftir kl. 22</small>
         </div>
@@ -120,6 +131,7 @@
   <!-- Map -->
   <div class="map-container">
     <div id="map"></div>
+    <div id="labelsContainer"></div>
     <div class="map-legend">
       <div class="legend-item"><div class="legend-dot" style="background:#3972b9"></div> Venjulegt veiðisvæði</div>
       <div class="legend-item"><div class="legend-dot" style="background:#313b4d"></div> 24h / Næturveiðar</div>
@@ -158,6 +170,17 @@
 
       <div class="filter-section">
         <h3>Veiðiskilyrði</h3>
+        <div class="toggle-row">
+          <div class="toggle-label">
+            Vatnsnöfn
+            <small>Sýna nöfn á korti</small>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleLabelsMobile">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
         <div class="toggle-row">
           <div class="toggle-label">
             Næturveiðar
