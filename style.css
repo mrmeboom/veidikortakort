@@ -462,9 +462,12 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
   flex-shrink: 0;
 }
 
-/* Location Labels */
+/* Location Labels - Leaflet divIcon */
+.leaflet-div-icon.location-label-marker {
+  background: transparent !important;
+  border: none !important;
+}
 .location-label {
-  position: absolute;
   padding: 4px 8px;
   background: white;
   border: 1px solid var(--border);
@@ -473,27 +476,32 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
   font-weight: 500;
   color: var(--text);
   white-space: nowrap;
-  z-index: 300;
   pointer-events: none;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  display: inline-block;
+}
+.location-label.hidden {
+  display: none;
 }
 
-/* Leader Lines */
+/* Leader Lines - Leaflet divIcon */
+.leaflet-div-icon.leader-line-marker {
+  background: transparent !important;
+  border: none !important;
+}
 .leader-line {
-  position: absolute;
   height: 1px;
   background: var(--border);
-  z-index: 299;
   pointer-events: none;
+  transform-origin: 0 50%;
 }
 .leader-dot {
-  position: absolute;
   width: 4px;
   height: 4px;
   background: var(--border);
   border-radius: 50%;
-  z-index: 299;
   pointer-events: none;
+  position: absolute;
 }
 
 /* Mobile adjustments */

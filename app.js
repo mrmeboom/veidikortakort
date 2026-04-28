@@ -79,41 +79,71 @@ LOCATIONS.forEach(loc => {
 });
 
 // ─────────────────────────────────────────────
-// LOCATION LABELS
+// LOCATION LABELS (Leaflet divIcon markers)
 // ─────────────────────────────────────────────
-const labelsContainer = document.getElementById('labelsContainer');
-const labelElements = {};
-const leaderLines = {};
+const labelMarkers = {};
+const leaderLineMarkers = {};
+const labelOffsets = {}; // Store collision offsets
 
-function renderLabels() {
+function createLabelIcon(name, hasLeaderLine) {
+  const html = hasLeaderLine 
+    ? `<div class="location-label">${name}</div>`
+    : `<div class="location-label">${name}</div>`;
+  
+  return L.divIcon({
+    className: 'location-label-marker',
+    html: html,
+    iconSize: null, // Auto size
+    iconAnchor: [0, 20] // Anchor at bottom-left of label
+  });
+}
+
+function createLeaderLineIcon(length, angle) {
+  const html = `<div class="leader-line" style="width:${length}px;transform:rotate(${angle}deg)"></div><div class="leader-dot"></div>`;
+  
+  return L.divIcon({
+    className: 'leader-line-marker',
+    html: html,
+    iconSize: [length + 4, 4],
+    iconAnchor: [2, 2]
+  });
+}
+
+function updateLabelPositions() {
   if (!state.showLabels) {
-    labelsContainer.innerHTML = '';
+    // Hide all label markers
+    Object.values(labelMarkers).forEach(marker => marker.setOpacity(0));
+    Object.values(leaderLineMarkers).forEach(marker => marker.setOpacity(0));
     return;
   }
 
-  labelsContainer.innerHTML = '';
-  const mapBounds = map.getBounds();
   const mapSize = map.getSize();
-
+  
+  // Calculate screen positions for all locations
   const labelData = LOCATIONS.map(loc => {
     const point = map.latLngToContainerPoint([loc.lat, loc.lng]);
+    const originalPoint = map.latLngToContainerPoint([loc.lat, loc.lng]);
     return {
       id: loc.id,
       name: loc.name,
+      lat: loc.lat,
+      lng: loc.lng,
       x: point.x,
       y: point.y,
-      originalX: point.x,
-      originalY: point.y,
-      width: 60,
+      originalX: originalPoint.x,
+      originalY: originalPoint.y,
+      width: 80,
       height: 20
     };
   }).filter(label => {
-    return label.x >= 0 && label.x <= mapSize.x && label.y >= 0 && label.y <= mapSize.y;
+    // Only process visible labels
+    return label.x >= -100 && label.x <= mapSize.x + 100 && 
+           label.y >= -50 && label.y <= mapSize.y + 50;
   });
 
-  // Iterative collision detection - horizontal first, then vertical
+  // Iterative collision detection - horizontal nudging
   const maxIterations = 10;
-  const padding = 8;
+  const padding = 6;
   
   for (let iter = 0; iter < maxIterations; iter++) {
     let hasCollision = false;
@@ -126,18 +156,16 @@ function renderLabels() {
         const dx = Math.abs(a.x - b.x);
         const dy = Math.abs(a.y - b.y);
         
-        if (dx < (a.width + b.width) / 2 + padding && dy < (a.height + b.height) / 2 + padding) {
+        if (dx < a.width + padding && dy < a.height + padding) {
           hasCollision = true;
           
-          // Horizontal nudge first
+          // Horizontal nudge
           if (a.x < b.x) {
-            const nudge = Math.min(15, ((a.width + b.width) / 2 + padding - dx) / 2);
-            a.x -= nudge;
-            b.x += nudge;
+            a.x -= 20;
+            b.x += 20;
           } else {
-            const nudge = Math.min(15, ((a.width + b.width) / 2 + padding - dx) / 2);
-            a.x += nudge;
-            b.x -= nudge;
+            a.x += 20;
+            b.x -= 20;
           }
         }
       }
@@ -146,24 +174,34 @@ function renderLabels() {
     if (!hasCollision) break;
   }
 
-  // Create label elements
+  // Update or create label markers
   labelData.forEach(label => {
-    const labelEl = document.createElement('div');
-    labelEl.className = 'location-label';
-    labelEl.textContent = label.name;
-    labelEl.style.left = `${label.x}px`;
-    labelEl.style.top = `${label.y - 20}px`;
-    labelsContainer.appendChild(labelEl);
+    const hasLeaderLine = Math.abs(label.x - label.originalX) > 20;
+    
+    // Update label marker
+    if (labelMarkers[label.id]) {
+      // Update position
+      const offsetX = label.x - label.originalX;
+      const offsetY = -20; // Fixed offset above marker
+      
+      // Convert screen offset back to lat/lng for Leaflet
+      const labelLatLng = map.containerPointToLatLng([label.x, label.y - 20]);
+      labelMarkers[label.id].setLatLng(labelLatLng);
+      labelMarkers[label.id].setOpacity(1);
+    } else {
+      // Create new label marker
+      const labelLatLng = map.containerPointToLatLng([label.x, label.y - 20]);
+      const marker = L.marker(labelLatLng, {
+        icon: createLabelIcon(label.name, hasLeaderLine),
+        interactive: false,
+        zIndexOffset: 1000
+      });
+      marker.addTo(map);
+      labelMarkers[label.id] = marker;
+    }
 
-    // Add leader line if moved significantly
-    const moveDistance = Math.abs(label.x - label.originalX);
-    if (moveDistance > 20) {
-      const line = document.createElement('div');
-      line.className = 'leader-line';
-      
-      const dot = document.createElement('div');
-      dot.className = 'leader-dot';
-      
+    // Update or create leader line
+    if (hasLeaderLine) {
       const startX = label.originalX;
       const startY = label.originalY - 15;
       const endX = label.x;
@@ -172,19 +210,42 @@ function renderLabels() {
       const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
       const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
       
-      line.style.width = `${length}px`;
-      line.style.left = `${startX}px`;
-      line.style.top = `${startY}px`;
-      line.style.transform = `rotate(${angle}deg)`;
-      line.style.transformOrigin = '0 50%';
+      const lineLatLng = map.containerPointToLatLng([startX, startY]);
       
-      dot.style.left = `${startX - 2}px`;
-      dot.style.top = `${startY - 2}px`;
-      
-      labelsContainer.appendChild(line);
-      labelsContainer.appendChild(dot);
+      if (leaderLineMarkers[label.id]) {
+        leaderLineMarkers[label.id].setLatLng(lineLatLng);
+        leaderLineMarkers[label.id].setOpacity(1);
+      } else {
+        const lineMarker = L.marker(lineLatLng, {
+          icon: createLeaderLineIcon(length, angle),
+          interactive: false,
+          zIndexOffset: 999
+        });
+        lineMarker.addTo(map);
+        leaderLineMarkers[label.id] = lineMarker;
+      }
+    } else if (leaderLineMarkers[label.id]) {
+      leaderLineMarkers[label.id].setOpacity(0);
     }
   });
+
+  // Hide labels for locations not in current view
+  Object.keys(labelMarkers).forEach(id => {
+    const idNum = parseInt(id);
+    if (!labelData.find(l => l.id === idNum)) {
+      labelMarkers[id].setOpacity(0);
+    }
+  });
+  Object.keys(leaderLineMarkers).forEach(id => {
+    const idNum = parseInt(id);
+    if (!labelData.find(l => l.id === idNum)) {
+      leaderLineMarkers[id].setOpacity(0);
+    }
+  });
+}
+
+function renderLabels() {
+  updateLabelPositions();
 }
 
 // ─────────────────────────────────────────────
