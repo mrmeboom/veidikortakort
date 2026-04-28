@@ -397,15 +397,37 @@ const filterFab = document.getElementById('filterFab');
 const bottomSheet = document.getElementById('bottomSheet');
 const bottomSheetBackdrop = document.getElementById('bottomSheetBackdrop');
 const bottomSheetClose = document.getElementById('bottomSheetClose');
+const bottomSheetHandle = document.querySelector('.bottom-sheet-handle');
+
+let sheetState = 'closed'; // 'closed', 'half', 'full'
+let sheetStartY = 0;
+let sheetCurrentY = 0;
+let sheetHeight = 0;
 
 function openBottomSheet() {
-  bottomSheet.classList.add('open');
+  sheetState = 'half';
+  bottomSheet.classList.add('open', 'open-half');
   bottomSheetBackdrop.classList.add('open');
 }
 
 function closeBottomSheet() {
-  bottomSheet.classList.remove('open');
+  sheetState = 'closed';
+  bottomSheet.classList.remove('open', 'open-half', 'open-full');
   bottomSheetBackdrop.classList.remove('open');
+}
+
+function setSheetState(state) {
+  sheetState = state;
+  bottomSheet.classList.remove('open-half', 'open-full', 'dragging');
+  if (state === 'closed') {
+    bottomSheet.classList.remove('open');
+    bottomSheetBackdrop.classList.remove('open');
+  } else {
+    bottomSheet.classList.add('open');
+    bottomSheetBackdrop.classList.add('open');
+    if (state === 'half') bottomSheet.classList.add('open-half');
+    if (state === 'full') bottomSheet.classList.add('open-full');
+  }
 }
 
 if (filterFab) {
@@ -418,6 +440,64 @@ if (bottomSheetBackdrop) {
 
 if (bottomSheetClose) {
   bottomSheetClose.addEventListener('click', closeBottomSheet);
+}
+
+// Drag functionality
+if (bottomSheet && bottomSheetHandle) {
+  let isDragging = false;
+  let startY = 0;
+  let currentY = 0;
+
+  bottomSheetHandle.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startY = e.touches[0].clientY;
+    sheetHeight = bottomSheet.offsetHeight;
+    bottomSheet.classList.add('dragging');
+  }, { passive: true });
+
+  bottomSheetHandle.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    currentY = e.touches[0].clientY;
+    const deltaY = currentY - startY;
+    const maxDelta = sheetHeight;
+    const clampedDelta = Math.max(-maxDelta, Math.min(maxDelta, deltaY));
+    
+    if (sheetState === 'half') {
+      bottomSheet.style.transform = `translateY(${50 + (clampedDelta / window.innerHeight * 100)}%)`;
+    } else if (sheetState === 'full') {
+      bottomSheet.style.transform = `translateY(${clampedDelta / window.innerHeight * 100}%)`;
+    }
+  }, { passive: true });
+
+  bottomSheetHandle.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    bottomSheet.classList.remove('dragging');
+    bottomSheet.style.transform = '';
+
+    const deltaY = currentY - startY;
+    const threshold = 50;
+
+    if (sheetState === 'half') {
+      if (deltaY > threshold) {
+        setSheetState('closed');
+      } else if (deltaY < -threshold) {
+        setSheetState('full');
+      } else {
+        setSheetState('half');
+      }
+    } else if (sheetState === 'full') {
+      if (deltaY > threshold) {
+        if (deltaY > threshold * 2) {
+          setSheetState('closed');
+        } else {
+          setSheetState('half');
+        }
+      } else {
+        setSheetState('full');
+      }
+    }
+  });
 }
 
 // Sync mobile filter controls with state

@@ -13,20 +13,23 @@
 
 <header>
   <img src="assets/icon.png" alt="Veiðikortakort" class="logo-img">
-  <h1>Veiðikortakort &mdash; <em>A fisherman's best friend</em></h1>
+  <div class="header-text">
+    <h1>Veiðikortakort</h1>
+    <p class="header-subtitle">A fisherman's best friend</p>
+  </div>
   <div class="lang-selector">
     <button class="lang-btn" id="langBtn">
-      <span class="lang-flag">🇬🇧</span>
-      <span class="lang-code">ENG</span>
+      <span class="lang-flag">🇮🇸</span>
+      <span class="lang-code">IS</span>
       <span class="lang-arrow">▼</span>
     </button>
     <div class="lang-dropdown" id="langDropdown">
+      <div class="lang-option active" data-lang="is"><span class="lang-flag">🇮🇸</span><span class="lang-code">IS</span></div>
+      <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-code">ENG</span></div>
       <div class="lang-option" data-lang="da"><span class="lang-flag">🇩🇰</span><span class="lang-code">DA</span></div>
       <div class="lang-option" data-lang="nl"><span class="lang-flag">🇳🇱</span><span class="lang-code">NL</span></div>
-      <div class="lang-option active" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-code">ENG</span></div>
       <div class="lang-option" data-lang="fr"><span class="lang-flag">🇫🇷</span><span class="lang-code">FR</span></div>
       <div class="lang-option" data-lang="de"><span class="lang-flag">🇩🇪</span><span class="lang-code">DE</span></div>
-      <div class="lang-option" data-lang="is"><span class="lang-flag">🇮🇸</span><span class="lang-code">IS</span></div>
       <div class="lang-option" data-lang="it"><span class="lang-flag">🇮🇹</span><span class="lang-code">IT</span></div>
       <div class="lang-option" data-lang="pl"><span class="lang-flag">🇵🇱</span><span class="lang-code">PL</span></div>
       <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-code">ES</span></div>
@@ -128,7 +131,7 @@
   </div>
 
   <!-- Mobile filter FAB -->
-  <button class="filter-fab" id="filterFab">⚙️</button>
+  <button class="filter-fab" id="filterFab">🔍</button>
 
   <!-- Mobile bottom sheet backdrop -->
   <div class="bottom-sheet-backdrop" id="bottomSheetBackdrop"></div>
