@@ -82,6 +82,17 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
   display: block;
 }
 
+/* Hide mobile-only elements on desktop */
+.filter-fab {
+  display: none;
+}
+.bottom-sheet {
+  display: none;
+}
+.bottom-sheet-backdrop {
+  display: none;
+}
+
 /* Language selector */
 .lang-selector {
   position: relative;
@@ -477,6 +488,8 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
   }
   .mobile-header {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .mobile-header h1 {
     font-size: 16px;
@@ -491,6 +504,17 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
     margin: 0;
     line-height: 1.2;
     font-style: italic;
+  }
+
+  /* Show mobile-only elements on mobile */
+  .filter-fab {
+    display: flex;
+  }
+  .bottom-sheet {
+    display: flex;
+  }
+  .bottom-sheet-backdrop {
+    display: block;
   }
 
   /* FAB - Floating Action Button */
