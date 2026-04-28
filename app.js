@@ -82,30 +82,13 @@ LOCATIONS.forEach(loc => {
 // LOCATION LABELS (Leaflet divIcon markers)
 // ─────────────────────────────────────────────
 const labelMarkers = {};
-const leaderLineMarkers = {};
-const labelOffsets = {}; // Store collision offsets
 
-function createLabelIcon(name, hasLeaderLine) {
-  const html = hasLeaderLine 
-    ? `<div class="location-label">${name}</div>`
-    : `<div class="location-label">${name}</div>`;
-  
+function createLabelIcon(name) {
   return L.divIcon({
     className: 'location-label-marker',
-    html: html,
+    html: `<div class="location-label">${name}</div>`,
     iconSize: null, // Auto size
     iconAnchor: [0, 20] // Anchor at bottom-left of label
-  });
-}
-
-function createLeaderLineIcon(length, angle) {
-  const html = `<div class="leader-line" style="width:${length}px;transform:rotate(${angle}deg)"></div><div class="leader-dot"></div>`;
-  
-  return L.divIcon({
-    className: 'leader-line-marker',
-    html: html,
-    iconSize: [length + 4, 4],
-    iconAnchor: [2, 2]
   });
 }
 
@@ -113,7 +96,6 @@ function updateLabelPositions() {
   if (!state.showLabels) {
     // Hide all label markers
     Object.values(labelMarkers).forEach(marker => marker.setOpacity(0));
-    Object.values(leaderLineMarkers).forEach(marker => marker.setOpacity(0));
     return;
   }
 
@@ -123,9 +105,11 @@ function updateLabelPositions() {
   const labelData = LOCATIONS.map(loc => {
     const point = map.latLngToContainerPoint([loc.lat, loc.lng]);
     const originalPoint = map.latLngToContainerPoint([loc.lat, loc.lng]);
+    // Use only first word of name
+    const firstWord = loc.name.split(' ')[0];
     return {
       id: loc.id,
-      name: loc.name,
+      name: firstWord,
       lat: loc.lat,
       lng: loc.lng,
       x: point.x,
@@ -177,8 +161,6 @@ function updateLabelPositions() {
 
   // Update or create label markers
   labelData.forEach(label => {
-    const hasLeaderLine = Math.abs(label.y - label.originalY) > 10;
-    
     // Update label marker
     if (labelMarkers[label.id]) {
       // Update position
@@ -189,7 +171,7 @@ function updateLabelPositions() {
       // Create new label marker
       const labelLatLng = map.containerPointToLatLng([label.x, label.y - 20]);
       const marker = L.marker(labelLatLng, {
-        icon: createLabelIcon(label.name, hasLeaderLine),
+        icon: createLabelIcon(label.name),
         interactive: true,
         zIndexOffset: 1000
       });
@@ -203,34 +185,6 @@ function updateLabelPositions() {
       marker.addTo(map);
       labelMarkers[label.id] = marker;
     }
-
-    // Update or create leader line
-    if (hasLeaderLine) {
-      const startX = label.originalX;
-      const startY = label.originalY - 15;
-      const endX = label.x;
-      const endY = label.y - 20;
-      
-      const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-      const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
-      
-      const lineLatLng = map.containerPointToLatLng([startX, startY]);
-      
-      if (leaderLineMarkers[label.id]) {
-        leaderLineMarkers[label.id].setLatLng(lineLatLng);
-        leaderLineMarkers[label.id].setOpacity(1);
-      } else {
-        const lineMarker = L.marker(lineLatLng, {
-          icon: createLeaderLineIcon(length, angle),
-          interactive: false,
-          zIndexOffset: 999
-        });
-        lineMarker.addTo(map);
-        leaderLineMarkers[label.id] = lineMarker;
-      }
-    } else if (leaderLineMarkers[label.id]) {
-      leaderLineMarkers[label.id].setOpacity(0);
-    }
   });
 
   // Hide labels for locations not in current view
@@ -238,12 +192,6 @@ function updateLabelPositions() {
     const idNum = parseInt(id);
     if (!labelData.find(l => l.id === idNum)) {
       labelMarkers[id].setOpacity(0);
-    }
-  });
-  Object.keys(leaderLineMarkers).forEach(id => {
-    const idNum = parseInt(id);
-    if (!labelData.find(l => l.id === idNum)) {
-      leaderLineMarkers[id].setOpacity(0);
     }
   });
 }

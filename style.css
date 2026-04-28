@@ -489,26 +489,6 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
   display: none;
 }
 
-/* Leader Lines - Leaflet divIcon */
-.leaflet-div-icon.leader-line-marker {
-  background: transparent !important;
-  border: none !important;
-}
-.leader-line {
-  height: 1px;
-  background: var(--border);
-  pointer-events: none;
-  transform-origin: 0 50%;
-}
-.leader-dot {
-  width: 4px;
-  height: 4px;
-  background: var(--border);
-  border-radius: 50%;
-  pointer-events: none;
-  position: absolute;
-}
-
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .filters { width: 200px; }
