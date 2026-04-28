@@ -94,7 +94,6 @@ function renderLabels() {
   labelsContainer.innerHTML = '';
   const mapBounds = map.getBounds();
   const mapSize = map.getSize();
-  const viewportRect = { x: 0, y: 0, width: mapSize.x, height: mapSize.y };
 
   const labelData = LOCATIONS.map(loc => {
     const point = map.latLngToContainerPoint([loc.lat, loc.lng]);
@@ -104,33 +103,47 @@ function renderLabels() {
       x: point.x,
       y: point.y,
       originalX: point.x,
-      originalY: point.y
+      originalY: point.y,
+      width: 60,
+      height: 20
     };
   }).filter(label => {
     return label.x >= 0 && label.x <= mapSize.x && label.y >= 0 && label.y <= mapSize.y;
   });
 
-  // Collision detection - nudge labels horizontally first, then vertically
-  const padding = 5;
-  for (let i = 0; i < labelData.length; i++) {
-    for (let j = i + 1; j < labelData.length; j++) {
-      const a = labelData[i];
-      const b = labelData[j];
-      
-      const dx = Math.abs(a.x - b.x);
-      const dy = Math.abs(a.y - b.y);
-      
-      if (dx < 60 && dy < 20) {
-        // Horizontal nudge first
-        if (a.x < b.x) {
-          a.x -= 30;
-          b.x += 30;
-        } else {
-          a.x += 30;
-          b.x -= 30;
+  // Iterative collision detection - horizontal first, then vertical
+  const maxIterations = 10;
+  const padding = 8;
+  
+  for (let iter = 0; iter < maxIterations; iter++) {
+    let hasCollision = false;
+    
+    for (let i = 0; i < labelData.length; i++) {
+      for (let j = i + 1; j < labelData.length; j++) {
+        const a = labelData[i];
+        const b = labelData[j];
+        
+        const dx = Math.abs(a.x - b.x);
+        const dy = Math.abs(a.y - b.y);
+        
+        if (dx < (a.width + b.width) / 2 + padding && dy < (a.height + b.height) / 2 + padding) {
+          hasCollision = true;
+          
+          // Horizontal nudge first
+          if (a.x < b.x) {
+            const nudge = Math.min(15, ((a.width + b.width) / 2 + padding - dx) / 2);
+            a.x -= nudge;
+            b.x += nudge;
+          } else {
+            const nudge = Math.min(15, ((a.width + b.width) / 2 + padding - dx) / 2);
+            a.x += nudge;
+            b.x -= nudge;
+          }
         }
       }
     }
+    
+    if (!hasCollision) break;
   }
 
   // Create label elements
@@ -778,5 +791,6 @@ loadURLParams = function() {
 updateMap();
 
 // Map event listeners for label recalculation
+map.on('move', renderLabels);
 map.on('moveend', renderLabels);
 map.on('zoomend', renderLabels);
