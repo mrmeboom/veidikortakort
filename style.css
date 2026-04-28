@@ -48,7 +48,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 20px;
   height: 56px;
   flex-shrink: 0;
   box-shadow: 0 2px 12px var(--shadow);
@@ -57,9 +57,7 @@ header {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
+  gap: 12px;
 }
 .logo-img {
   width: 32px;
@@ -68,25 +66,20 @@ header {
   object-fit: cover;
   flex-shrink: 0;
 }
-.header-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 header h1 {
   font-family: 'Fraunces', serif;
-  font-size: 16px; font-weight: 500;
+  font-size: 18px; font-weight: 400;
   letter-spacing: 0.02em;
   margin: 0;
-  line-height: 1.2;
 }
-.header-subtitle {
-  font-size: 11px;
-  font-weight: 400;
-  color: var(--blue-muted);
-  margin: 0;
-  line-height: 1.2;
-  font-style: italic;
+header h1 em { font-style: italic; color: var(--blue-muted); }
+
+/* Mobile header (hidden on desktop) */
+.mobile-header {
+  display: none;
+}
+.desktop-header {
+  display: block;
 }
 
 /* Language selector */
@@ -465,6 +458,40 @@ header h1 {
 }
 @media (max-width: 560px) {
   .filters { display: none; }
+
+  /* Mobile header adjustments */
+  header {
+    padding: 0 16px;
+  }
+  .header-left {
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+  }
+  .logo-img {
+    width: 32px;
+    height: 32px;
+  }
+  .desktop-header {
+    display: none;
+  }
+  .mobile-header {
+    display: flex;
+  }
+  .mobile-header h1 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .header-subtitle {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--blue-muted);
+    margin: 0;
+    line-height: 1.2;
+    font-style: italic;
+  }
 
   /* FAB - Floating Action Button */
   .filter-fab {
