@@ -464,9 +464,11 @@ if (bottomSheet) {
     const clampedDelta = Math.max(-maxDelta, Math.min(maxDelta, deltaY));
     
     if (sheetState === 'half') {
-      bottomSheet.style.transform = `translateY(${31 + (clampedDelta / window.innerHeight * 100)}%)`;
+      const newHeight = Math.max(30, Math.min(85, 69 - (clampedDelta / window.innerHeight * 100)));
+      bottomSheet.style.height = `${newHeight}vh`;
     } else if (sheetState === 'full') {
-      bottomSheet.style.transform = `translateY(${clampedDelta / window.innerHeight * 100}%)`;
+      const newHeight = Math.max(30, Math.min(85, 85 - (clampedDelta / window.innerHeight * 100)));
+      bottomSheet.style.height = `${newHeight}vh`;
     }
   }, { passive: true });
 
@@ -474,7 +476,7 @@ if (bottomSheet) {
     if (!isDragging) return;
     isDragging = false;
     bottomSheet.classList.remove('dragging');
-    bottomSheet.style.transform = '';
+    bottomSheet.style.height = '';
 
     const deltaY = currentY - startY;
     const threshold = 50;

@@ -556,20 +556,23 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
     box-shadow: 0 -4px 20px rgba(49, 59, 77, 0.15);
     z-index: 600;
     transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    max-height: 85vh;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 85vh;
     display: flex;
     flex-direction: column;
     touch-action: none;
   }
   .bottom-sheet.open {
     transform: translateY(0);
+    height: 85vh;
   }
   .bottom-sheet.open-half {
-    transform: translateY(31%);
+    transform: translateY(0);
+    height: 69vh;
   }
   .bottom-sheet.open-full {
     transform: translateY(0);
+    height: 85vh;
   }
   .bottom-sheet.dragging {
     transition: none;
