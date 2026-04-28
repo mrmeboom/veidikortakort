@@ -297,6 +297,7 @@ document.getElementById('regionPills').addEventListener('click', e => {
   pill.classList.add('active');
   state.region = pill.dataset.region;
   debounceUpdate();
+  syncMobileControls();
 });
 
 // Toggles
@@ -307,6 +308,7 @@ document.getElementById('toggleNight').addEventListener('change', e => {
     state.fullDay = false;
   }
   debounceUpdate();
+  syncMobileControls();
 });
 document.getElementById('toggle24h').addEventListener('change', e => {
   state.fullDay = e.target.checked;
@@ -315,14 +317,17 @@ document.getElementById('toggle24h').addEventListener('change', e => {
     state.nightFishing = false;
   }
   debounceUpdate();
+  syncMobileControls();
 });
 document.getElementById('toggleCamping').addEventListener('change', e => {
   state.camping = e.target.checked;
   debounceUpdate();
+  syncMobileControls();
 });
 document.getElementById('toggleAllYear').addEventListener('change', e => {
   state.allYear = e.target.checked;
   debounceUpdate();
+  syncMobileControls();
 });
 
 // Month buttons
@@ -339,6 +344,7 @@ document.getElementById('monthBtns').addEventListener('click', e => {
     state.month = m;
   }
   debounceUpdate();
+  syncMobileControls();
 });
 
 // Reset
@@ -348,6 +354,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   document.querySelector('.pill[data-region="all"]').classList.add('active');
   ['toggleNight','toggle24h','toggleCamping','toggleAllYear'].forEach(id => document.getElementById(id).checked = false);
   document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+  syncMobileControls();
   updateMap();
 });
 
@@ -382,6 +389,185 @@ document.addEventListener('click', (e) => {
     langDropdown.classList.remove('show');
   }
 });
+
+// ─────────────────────────────────────────────
+// MOBILE BOTTOM SHEET
+// ─────────────────────────────────────────────
+const filterFab = document.getElementById('filterFab');
+const bottomSheet = document.getElementById('bottomSheet');
+const bottomSheetBackdrop = document.getElementById('bottomSheetBackdrop');
+const bottomSheetClose = document.getElementById('bottomSheetClose');
+
+function openBottomSheet() {
+  bottomSheet.classList.add('open');
+  bottomSheetBackdrop.classList.add('open');
+}
+
+function closeBottomSheet() {
+  bottomSheet.classList.remove('open');
+  bottomSheetBackdrop.classList.remove('open');
+}
+
+if (filterFab) {
+  filterFab.addEventListener('click', openBottomSheet);
+}
+
+if (bottomSheetBackdrop) {
+  bottomSheetBackdrop.addEventListener('click', closeBottomSheet);
+}
+
+if (bottomSheetClose) {
+  bottomSheetClose.addEventListener('click', closeBottomSheet);
+}
+
+// Sync mobile filter controls with state
+function syncMobileControls() {
+  // Sync region pills
+  document.querySelectorAll('#regionPillsMobile .pill').forEach(pill => {
+    pill.classList.toggle('active', pill.dataset.region === state.region);
+  });
+
+  // Sync toggles
+  const toggleNightMobile = document.getElementById('toggleNightMobile');
+  const toggle24hMobile = document.getElementById('toggle24hMobile');
+  const toggleCampingMobile = document.getElementById('toggleCampingMobile');
+  const toggleAllYearMobile = document.getElementById('toggleAllYearMobile');
+
+  if (toggleNightMobile) toggleNightMobile.checked = state.nightFishing;
+  if (toggle24hMobile) toggle24hMobile.checked = state.fullDay;
+  if (toggleCampingMobile) toggleCampingMobile.checked = state.camping;
+  if (toggleAllYearMobile) toggleAllYearMobile.checked = state.allYear;
+
+  // Sync month buttons
+  document.querySelectorAll('#monthBtnsMobile .month-btn').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.month) === state.month);
+  });
+}
+
+// Sync desktop filter controls with state
+function syncDesktopControls() {
+  // Sync region pills
+  document.querySelectorAll('#regionPills .pill').forEach(pill => {
+    pill.classList.toggle('active', pill.dataset.region === state.region);
+  });
+
+  // Sync toggles
+  const toggleNight = document.getElementById('toggleNight');
+  const toggle24h = document.getElementById('toggle24h');
+  const toggleCamping = document.getElementById('toggleCamping');
+  const toggleAllYear = document.getElementById('toggleAllYear');
+
+  if (toggleNight) toggleNight.checked = state.nightFishing;
+  if (toggle24h) toggle24h.checked = state.fullDay;
+  if (toggleCamping) toggleCamping.checked = state.camping;
+  if (toggleAllYear) toggleAllYear.checked = state.allYear;
+
+  // Sync month buttons
+  document.querySelectorAll('#monthBtns .month-btn').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.month) === state.month);
+  });
+}
+
+// Mobile region pills
+const regionPillsMobile = document.getElementById('regionPillsMobile');
+if (regionPillsMobile) {
+  regionPillsMobile.addEventListener('click', e => {
+    const pill = e.target.closest('.pill');
+    if (!pill) return;
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    state.region = pill.dataset.region;
+    debounceUpdate();
+    syncDesktopControls();
+  });
+}
+
+// Mobile toggles
+const toggleNightMobile = document.getElementById('toggleNightMobile');
+if (toggleNightMobile) {
+  toggleNightMobile.addEventListener('change', e => {
+    state.nightFishing = e.target.checked;
+    if (e.target.checked) {
+      state.fullDay = false;
+      if (toggle24hMobile) toggle24hMobile.checked = false;
+    }
+    debounceUpdate();
+    syncDesktopControls();
+  });
+}
+
+const toggle24hMobile = document.getElementById('toggle24hMobile');
+if (toggle24hMobile) {
+  toggle24hMobile.addEventListener('change', e => {
+    state.fullDay = e.target.checked;
+    if (e.target.checked) {
+      state.nightFishing = false;
+      if (toggleNightMobile) toggleNightMobile.checked = false;
+    }
+    debounceUpdate();
+    syncDesktopControls();
+  });
+}
+
+const toggleCampingMobile = document.getElementById('toggleCampingMobile');
+if (toggleCampingMobile) {
+  toggleCampingMobile.addEventListener('change', e => {
+    state.camping = e.target.checked;
+    debounceUpdate();
+    syncDesktopControls();
+  });
+}
+
+const toggleAllYearMobile = document.getElementById('toggleAllYearMobile');
+if (toggleAllYearMobile) {
+  toggleAllYearMobile.addEventListener('change', e => {
+    state.allYear = e.target.checked;
+    debounceUpdate();
+    syncDesktopControls();
+  });
+}
+
+// Mobile month buttons
+const monthBtnsMobile = document.getElementById('monthBtnsMobile');
+if (monthBtnsMobile) {
+  monthBtnsMobile.addEventListener('click', e => {
+    const btn = e.target.closest('.month-btn');
+    if (!btn) return;
+    const m = parseInt(btn.dataset.month);
+    if (state.month === m) {
+      state.month = null;
+      btn.classList.remove('active');
+    } else {
+      document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.month = m;
+    }
+    debounceUpdate();
+    syncDesktopControls();
+  });
+}
+
+// Mobile reset button
+const resetBtnMobile = document.getElementById('resetBtnMobile');
+if (resetBtnMobile) {
+  resetBtnMobile.addEventListener('click', () => {
+    state = { region: 'all', nightFishing: false, fullDay: false, camping: false, allYear: false, month: null, activeId: state.activeId };
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    document.querySelector('.pill[data-region="all"]').classList.add('active');
+    ['toggleNight','toggle24h','toggleCamping','toggleAllYear'].forEach(id => document.getElementById(id).checked = false);
+    document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+    syncDesktopControls();
+    updateMap();
+  });
+}
+
+// Update loadURLParams to sync both mobile and desktop controls
+const originalLoadURLParams = loadURLParams;
+loadURLParams = function() {
+  originalLoadURLParams();
+  syncMobileControls();
+  syncDesktopControls();
+};
 
 // Initial render
 updateMap();

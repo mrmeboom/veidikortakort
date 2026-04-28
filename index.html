@@ -127,6 +127,97 @@
     </div>
   </div>
 
+  <!-- Mobile filter FAB -->
+  <button class="filter-fab" id="filterFab">⚙️</button>
+
+  <!-- Mobile bottom sheet backdrop -->
+  <div class="bottom-sheet-backdrop" id="bottomSheetBackdrop"></div>
+
+  <!-- Mobile bottom sheet -->
+  <div class="bottom-sheet" id="bottomSheet">
+    <div class="bottom-sheet-handle"></div>
+    <div class="bottom-sheet-header">
+      <div class="bottom-sheet-title">Síur</div>
+      <button class="bottom-sheet-close" id="bottomSheetClose">✕</button>
+    </div>
+    <div class="bottom-sheet-content">
+      <div class="filter-section">
+        <h3>Landssvæði</h3>
+        <div class="region-pills" id="regionPillsMobile">
+          <button class="pill active" data-region="all">Allt land</button>
+          <button class="pill" data-region="Suðurland">Suðurland</button>
+          <button class="pill" data-region="Vesturland">Vesturland</button>
+          <button class="pill" data-region="Norðurland">Norðurland</button>
+          <button class="pill" data-region="Austurland">Austurland</button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3>Veiðiskilyrði</h3>
+        <div class="toggle-row">
+          <div class="toggle-label">
+            Næturveiðar
+            <small>Veiðar eftir kl. 22</small>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleNightMobile">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">
+            Sólarhringsveiðar
+            <small>24h leyfilegar</small>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggle24hMobile">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">
+            Tjaldmöguleikar
+            <small>Tjaldstæði á svæðinu</small>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleCampingMobile">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">
+            Opið allt árið
+            <small>Engin lokun á vetrum</small>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleAllYearMobile">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3>Opið á þessum mánuði</h3>
+        <div class="month-row" id="monthBtnsMobile">
+          <button class="month-btn" data-month="4">Apr</button>
+          <button class="month-btn" data-month="5">Maí</button>
+          <button class="month-btn" data-month="6">Jún</button>
+          <button class="month-btn" data-month="7">Júl</button>
+          <button class="month-btn" data-month="8">Ágú</button>
+          <button class="month-btn" data-month="9">Sep</button>
+          <button class="month-btn" data-month="10">Okt</button>
+          <button class="month-btn" data-month="11">Nóv</button>
+        </div>
+      </div>
+
+      <button class="reset-btn" id="resetBtnMobile">↺ Hreinsa síur</button>
+    </div>
+  </div>
+
   <!-- Detail panel -->
   <div class="detail-panel" id="detailPanel">
     <div class="detail-inner" id="detailInner"></div>

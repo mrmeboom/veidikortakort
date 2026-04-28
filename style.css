@@ -450,4 +450,119 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
 }
 @media (max-width: 560px) {
   .filters { display: none; }
+
+  /* FAB - Floating Action Button */
+  .filter-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    background: var(--blue-dark);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(49, 59, 77, 0.3);
+    cursor: pointer;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .filter-fab:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(49, 59, 77, 0.4);
+  }
+  .filter-fab:active {
+    transform: scale(0.95);
+  }
+
+  /* Bottom Sheet */
+  .bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -4px 20px rgba(49, 59, 77, 0.15);
+    z-index: 600;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .bottom-sheet.open {
+    transform: translateY(0);
+  }
+
+  /* Drag Handle */
+  .bottom-sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 12px auto;
+    flex-shrink: 0;
+  }
+
+  /* Bottom Sheet Content */
+  .bottom-sheet-content {
+    padding: 0 20px 20px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  /* Bottom Sheet Header */
+  .bottom-sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .bottom-sheet-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .bottom-sheet-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+  }
+  .bottom-sheet-close:hover {
+    color: var(--text);
+  }
+
+  /* Backdrop */
+  .bottom-sheet-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(49, 59, 77, 0.5);
+    z-index: 550;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .bottom-sheet-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Adjust legend position on mobile */
+  .map-legend {
+    bottom: 88px;
+  }
 }
