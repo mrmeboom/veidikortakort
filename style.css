@@ -476,9 +476,14 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
   font-weight: 500;
   color: var(--text);
   white-space: nowrap;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   display: inline-block;
+}
+.location-label:hover {
+  background: var(--blue-pale);
+  border-color: var(--blue-mid);
 }
 .location-label.hidden {
   display: none;

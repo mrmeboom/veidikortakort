@@ -141,7 +141,7 @@ function updateLabelPositions() {
            label.y >= -50 && label.y <= mapSize.y + 50;
   });
 
-  // Iterative collision detection - horizontal nudging
+  // Iterative collision detection - vertical nudging priority
   const maxIterations = 10;
   const padding = 6;
   
@@ -156,16 +156,17 @@ function updateLabelPositions() {
         const dx = Math.abs(a.x - b.x);
         const dy = Math.abs(a.y - b.y);
         
+        // Check if labels overlap (they're wide, so check if X overlap exists)
         if (dx < a.width + padding && dy < a.height + padding) {
           hasCollision = true;
           
-          // Horizontal nudge
-          if (a.x < b.x) {
-            a.x -= 20;
-            b.x += 20;
+          // Vertical nudge - push labels up/down
+          if (a.y < b.y) {
+            a.y -= 15;
+            b.y += 15;
           } else {
-            a.x += 20;
-            b.x -= 20;
+            a.y += 15;
+            b.y -= 15;
           }
         }
       }
@@ -176,15 +177,11 @@ function updateLabelPositions() {
 
   // Update or create label markers
   labelData.forEach(label => {
-    const hasLeaderLine = Math.abs(label.x - label.originalX) > 20;
+    const hasLeaderLine = Math.abs(label.y - label.originalY) > 10;
     
     // Update label marker
     if (labelMarkers[label.id]) {
       // Update position
-      const offsetX = label.x - label.originalX;
-      const offsetY = -20; // Fixed offset above marker
-      
-      // Convert screen offset back to lat/lng for Leaflet
       const labelLatLng = map.containerPointToLatLng([label.x, label.y - 20]);
       labelMarkers[label.id].setLatLng(labelLatLng);
       labelMarkers[label.id].setOpacity(1);
@@ -193,9 +190,16 @@ function updateLabelPositions() {
       const labelLatLng = map.containerPointToLatLng([label.x, label.y - 20]);
       const marker = L.marker(labelLatLng, {
         icon: createLabelIcon(label.name, hasLeaderLine),
-        interactive: false,
+        interactive: true,
         zIndexOffset: 1000
       });
+      
+      // Add click handler to select location
+      marker.on('click', (e) => {
+        e.originalEvent.stopPropagation();
+        selectLocation(label.id);
+      });
+      
       marker.addTo(map);
       labelMarkers[label.id] = marker;
     }
