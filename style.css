@@ -515,7 +515,7 @@ header h1 {
     transform: translateY(0);
   }
   .bottom-sheet.open-half {
-    transform: translateY(50%);
+    transform: translateY(31%);
   }
   .bottom-sheet.open-full {
     transform: translateY(0);
@@ -526,12 +526,18 @@ header h1 {
 
   /* Drag Handle */
   .bottom-sheet-handle {
-    width: 40px;
-    height: 4px;
+    width: 48px;
+    height: 6px;
     background: var(--border);
-    border-radius: 2px;
-    margin: 12px auto;
+    border-radius: 3px;
+    margin: 16px auto;
     flex-shrink: 0;
+    cursor: grab;
+    touch-action: none;
+  }
+  .bottom-sheet-handle:active {
+    cursor: grabbing;
+    background: var(--text-muted);
   }
 
   /* Bottom Sheet Content */
