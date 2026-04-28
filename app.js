@@ -447,7 +447,7 @@ if (bottomSheet) {
   let startY = 0;
   let currentY = 0;
 
-  const dragArea = bottomSheet.querySelector('.bottom-sheet-handle') || bottomSheet.querySelector('.bottom-sheet-header');
+  const dragArea = bottomSheet.querySelector('.bottom-sheet-header');
 
   dragArea.addEventListener('touchstart', (e) => {
     isDragging = true;
