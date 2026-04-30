@@ -181,6 +181,9 @@ header h1 em { font-style: italic; color: var(--blue-muted); }
   color: var(--text-muted);
   margin-bottom: 8px;
 }
+.filter-section.no-title {
+  margin-top: -10px;
+}
 
 /* Region pills */
 .region-pills { display: flex; flex-wrap: wrap; gap: 5px; }
