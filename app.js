@@ -83,10 +83,11 @@ LOCATIONS.forEach(loc => {
 // ─────────────────────────────────────────────
 const labelMarkers = {};
 
-function createLabelIcon(name) {
+function createLabelIcon(name, isDimmed = false) {
+  const dimmedClass = isDimmed ? 'location-label dimmed' : 'location-label';
   return L.divIcon({
     className: 'location-label-marker',
-    html: `<div class="location-label">${name}</div>`,
+    html: `<div class="${dimmedClass}">${name}</div>`,
     iconSize: null, // Auto size
     iconAnchor: [0, 20] // Anchor at bottom-left of label
   });
@@ -100,6 +101,10 @@ function updateLabelPositions() {
   }
 
   const mapSize = map.getSize();
+  
+  // Get visible locations for dimming
+  const visible = filterLocations();
+  const visibleIds = new Set(visible.map(l => l.id));
   
   // Calculate screen positions for all locations
   const labelData = LOCATIONS.map(loc => {
@@ -161,17 +166,21 @@ function updateLabelPositions() {
 
   // Update or create label markers
   labelData.forEach(label => {
+    const isDimmed = !visibleIds.has(label.id);
+    
     // Update label marker
     if (labelMarkers[label.id]) {
-      // Update position
+      // Update position and dimming state
       const labelLatLng = map.containerPointToLatLng([label.x, label.y - 20]);
       labelMarkers[label.id].setLatLng(labelLatLng);
-      labelMarkers[label.id].setOpacity(1);
+      // Re-create icon if dimming state changed
+      labelMarkers[label.id].setIcon(createLabelIcon(label.name, isDimmed));
+      labelMarkers[label.id].setOpacity(isDimmed ? 0.4 : 1);
     } else {
       // Create new label marker
       const labelLatLng = map.containerPointToLatLng([label.x, label.y - 20]);
       const marker = L.marker(labelLatLng, {
-        icon: createLabelIcon(label.name),
+        icon: createLabelIcon(label.name, isDimmed),
         interactive: true,
         zIndexOffset: 1000
       });
