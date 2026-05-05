@@ -24,8 +24,143 @@ let state = {
   allYear: false,
   month: null,
   activeId: null,
-  showLabels: false
+  showLabels: false,
+  lang: 'is'
 };
+
+// ─────────────────────────────────────────────
+// TRANSLATIONS
+// ─────────────────────────────────────────────
+let TRANSLATIONS = null;
+let LOCATIONS = []; // Will be loaded dynamically
+
+// Load translations.json
+async function loadTranslations() {
+  try {
+    const response = await fetch('translations.json');
+    TRANSLATIONS = await response.json();
+  } catch (err) {
+    console.error('Failed to load translations:', err);
+  }
+}
+
+// Get translation for a key
+function t(key) {
+  if (!TRANSLATIONS || !TRANSLATIONS[key]) return key;
+  const value = TRANSLATIONS[key];
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object' && value[state.lang]) return value[state.lang];
+  if (typeof value === 'object' && value['is']) return value['is'];
+  return key;
+}
+
+// Update all UI text based on current language
+function updateUI() {
+  if (!TRANSLATIONS) return;
+  
+  // Update elements with data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const translation = t(key);
+    if (translation) el.textContent = translation;
+  });
+  
+  // Update month buttons
+  document.querySelectorAll('[data-i18n-month]').forEach(el => {
+    const monthIndex = parseInt(el.dataset.i18nMonth);
+    const months = TRANSLATIONS.months?.[state.lang] || TRANSLATIONS.months?.['is'];
+    if (months && months[monthIndex]) {
+      el.textContent = months[monthIndex];
+    }
+  });
+  
+  // Update language selector display
+  const langBtn = document.getElementById('langBtn');
+  if (langBtn) {
+    const langOption = document.querySelector(`.lang-option[data-lang="${state.lang}"]`);
+    if (langOption) {
+      const flag = langOption.querySelector('.lang-flag').textContent;
+      const code = langOption.querySelector('.lang-code').textContent;
+      langBtn.querySelector('.lang-flag').textContent = flag;
+      langBtn.querySelector('.lang-code').textContent = code;
+    }
+  }
+  
+  // Update active language in dropdown
+  document.querySelectorAll('.lang-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.lang === state.lang);
+  });
+  
+  // Update detail panel if open
+  if (state.activeId) {
+    renderDetailPanel(state.activeId);
+  }
+  
+  // Update labels
+  renderLabels();
+}
+
+// Load location data for a language
+async function loadLanguage(lang) {
+  if (!['is', 'en', 'da', 'nl', 'fr', 'de', 'it', 'pl', 'es'].includes(lang)) {
+    lang = 'is';
+  }
+  
+  state.lang = lang;
+  
+  try {
+    const response = await fetch(`locales/data.${lang}.js`);
+    const jsText = await response.text();
+    
+    // Extract LOCATIONS array from the JS file
+    // The files have format: const LOCATIONS = [...];
+    const match = jsText.match(/const\s+LOCATIONS\s*=\s*(\[.*?\]);/s);
+    if (match) {
+      LOCATIONS = eval(match[1]);
+    } else {
+      // Fallback: try to execute the script
+      eval(jsText.replace('const LOCATIONS =', 'LOCATIONS ='));
+    }
+    
+    // Re-initialize markers
+    Object.values(markers).forEach(m => map.removeLayer(m));
+    Object.keys(markers).forEach(key => delete markers[key]);
+    
+    // Re-create markers
+    LOCATIONS.forEach(loc => {
+      const marker = L.marker([loc.lat, loc.lng], {
+        icon: createMarkerIcon(loc),
+        title: loc.name
+      });
+      
+      marker.on('click', () => selectLocation(loc.id));
+      marker.bindTooltip(loc.name, {
+        direction: 'top',
+        offset: [0, -32],
+        className: 'vk-tooltip'
+      });
+      
+      marker.addTo(map);
+      markers[loc.id] = marker;
+    });
+    
+    // Clear label markers (they'll be recreated)
+    Object.values(labelMarkers).forEach(m => map.removeLayer(m));
+    Object.keys(labelMarkers).forEach(key => delete labelMarkers[key]);
+    
+    // Update UI and map
+    updateUI();
+    updateMap();
+    updateURL();
+    
+  } catch (err) {
+    console.error('Failed to load language:', err);
+    // Fallback to Icelandic
+    if (lang !== 'is') {
+      loadLanguage('is');
+    }
+  }
+}
 
 // ─────────────────────────────────────────────
 // MARKERS
@@ -246,22 +381,21 @@ function updateMap() {
 // ─────────────────────────────────────────────
 // DETAIL PANEL
 // ─────────────────────────────────────────────
-function selectLocation(id) {
+function renderDetailPanel(id) {
   const loc = LOCATIONS.find(l => l.id === id);
   if (!loc) return;
 
-  state.activeId = id;
-  updateMap();
-  map.flyTo([loc.lat, loc.lng], Math.max(map.getZoom(), 8), { duration: 0.8 });
-
   // Build badges
   let badges = '';
-  if (loc.fullDay) badges += `<span class="badge badge-24h">🌙 24h veiðar</span>`;
-  else if (loc.nightFishing) badges += `<span class="badge badge-night">🌙 Næturveiðar</span>`;
-  if (loc.camping) badges += `<span class="badge badge-camping">⛺ Tjaldstæði</span>`;
-  if (loc.allYear) badges += `<span class="badge badge-allyear">📅 Opið árið</span>`;
+  if (loc.fullDay) badges += `<span class="badge badge-24h">🌙 24h ${t('toggle_24h').toLowerCase()}</span>`;
+  else if (loc.nightFishing) badges += `<span class="badge badge-night">🌙 ${t('toggle_night')}</span>`;
+  if (loc.camping) badges += `<span class="badge badge-camping">⛺ ${t('info_camping')}</span>`;
+  if (loc.allYear) badges += `<span class="badge badge-allyear">📅 ${t('toggle_allyear')}</span>`;
   if (loc.flyOnly) badges += `<span class="badge badge-flyonly">🪰 Fluga eingöngu</span>`;
   if (loc.fourByFour) badges += `<span class="badge badge-4x4">🚙 Krefst jeppa</span>`;
+
+  const yesText = '✓ ' + t('yes');
+  const noText = '✗ ' + t('no');
 
   document.getElementById('detailInner').innerHTML = `
     <div class="detail-hero">
@@ -274,80 +408,90 @@ function selectLocation(id) {
 
     <div class="detail-grid">
       <div class="info-card">
-        <div class="label">Daglegur veiðitími</div>
+        <div class="label">${loc.hoursLabel || 'Daglegur veiðitími'}</div>
         <div class="value">${loc.hours}</div>
       </div>
       <div class="info-card">
-        <div class="label">Veiðitímabil</div>
+        <div class="label">${loc.seasonLabel || 'Veiðitímabil'}</div>
         <div class="value">${loc.seasonText}</div>
       </div>
       ${loc.fishSpecies ? `
       <div class="info-card full">
-        <div class="label">Fisktegundir</div>
+        <div class="label">${loc.fishSpeciesLabel || 'Fisktegundir'}</div>
         <div class="value">${loc.fishSpecies}</div>
       </div>` : ''}
       ${loc.bestTime ? `
       <div class="info-card full">
-        <div class="label">Besti veiðitíminn</div>
+        <div class="label">${loc.bestTimeLabel || 'Besti veiðitíminn'}</div>
         <div class="value">${loc.bestTime}</div>
       </div>` : ''}
       ${loc.legalBaits ? `
       <div class="info-card full">
-        <div class="label">Lögleg agn</div>
+        <div class="label">${loc.legalBaitsLabel || 'Lögleg agn'}</div>
         <div class="value">${loc.legalBaits}</div>
       </div>` : ''}
       ${loc.distance ? `
       <div class="info-card">
-        <div class="label">Fjarlægð frá RVK</div>
+        <div class="label">${loc.distanceLabel || 'Fjarlægð frá RVK'}</div>
         <div class="value">${loc.distance}</div>
       </div>` : ''}
       ${loc.sizeDepth ? `
       <div class="info-card">
-        <div class="label">Stærð/Dýpt</div>
+        <div class="label">${loc.sizeDepthLabel || 'Stærð/Dýpt'}</div>
         <div class="value">${loc.sizeDepth}</div>
       </div>` : ''}
     </div>
 
     <div class="detail-section">
-      <h4>Um svæðið</h4>
+      <h4>${loc.aboutLabel || 'Um svæðið'}</h4>
       <p>${loc.description}</p>
     </div>
 
     <div class="detail-section">
-      <h4>Yfirlit</h4>
+      <h4>${loc.overviewLabel || 'Yfirlit'}</h4>
       <div class="detail-grid" style="margin-bottom:0">
         <div class="info-card">
-          <div class="label">Næturveiðar</div>
+          <div class="label">${t('toggle_night')}</div>
           <div class="value" style="color:${loc.nightFishing ? 'var(--green-accent)' : 'var(--text-muted)'}">
-            ${loc.nightFishing ? '✓ Já' : '✗ Nei'}
+            ${loc.nightFishing ? yesText : noText}
           </div>
         </div>
         <div class="info-card">
-          <div class="label">Sólarhringur</div>
+          <div class="label">${t('toggle_24h')}</div>
           <div class="value" style="color:${loc.fullDay ? 'var(--green-accent)' : 'var(--text-muted)'}">
-            ${loc.fullDay ? '✓ Já' : '✗ Nei'}
+            ${loc.fullDay ? yesText : noText}
           </div>
         </div>
         <div class="info-card">
-          <div class="label">Tjaldstæði</div>
+          <div class="label">${t('toggle_camping')}</div>
           <div class="value" style="color:${loc.camping ? 'var(--green-accent)' : 'var(--text-muted)'}">
-            ${loc.camping ? '✓ Já' : '✗ Nei'}
+            ${loc.camping ? yesText : noText}
           </div>
         </div>
         <div class="info-card">
-          <div class="label">Opið árið</div>
+          <div class="label">${t('toggle_allyear')}</div>
           <div class="value" style="color:${loc.allYear ? 'var(--green-accent)' : 'var(--text-muted)'}">
-            ${loc.allYear ? '✓ Já' : '✗ Nei'}
+            ${loc.allYear ? yesText : noText}
           </div>
         </div>
       </div>
     </div>
 
     <a href="${loc.url}" target="_blank" class="detail-link">
-      Sjá fulla síðu á veidikortid.is →
+      ${loc.fullPageLabel || 'Sjá fulla síðu á veidikortid.is'} →
     </a>
   `;
+}
 
+function selectLocation(id) {
+  const loc = LOCATIONS.find(l => l.id === id);
+  if (!loc) return;
+
+  state.activeId = id;
+  updateMap();
+  map.flyTo([loc.lat, loc.lng], Math.max(map.getZoom(), 8), { duration: 0.8 });
+
+  renderDetailPanel(id);
   document.getElementById('detailPanel').classList.add('open');
 }
 
@@ -364,6 +508,7 @@ function closeDetail() {
 // URL parameter handling
 function updateURL() {
   const params = new URLSearchParams();
+  if (state.lang !== 'is') params.set('lang', state.lang);
   if (state.region !== 'all') params.set('region', state.region);
   if (state.nightFishing) params.set('nightFishing', 'true');
   if (state.fullDay) params.set('fullDay', 'true');
@@ -377,6 +522,12 @@ function updateURL() {
 
 function loadURLParams() {
   const params = new URLSearchParams(window.location.search);
+  if (params.has('lang')) {
+    const lang = params.get('lang');
+    if (['is', 'en', 'da', 'nl', 'fr', 'de', 'it', 'pl', 'es'].includes(lang)) {
+      state.lang = lang;
+    }
+  }
   if (params.has('region')) {
     state.region = params.get('region');
     const pill = document.querySelector(`.pill[data-region="${state.region}"]`);
@@ -493,7 +644,18 @@ document.getElementById('monthBtns').addEventListener('click', e => {
 
 // Reset
 document.getElementById('resetBtn').addEventListener('click', () => {
-  state = { region: 'all', nightFishing: false, fullDay: false, camping: false, allYear: false, month: null, activeId: state.activeId };
+  const currentLang = state.lang;
+  state = { 
+    region: 'all', 
+    nightFishing: false, 
+    fullDay: false, 
+    camping: false, 
+    allYear: false, 
+    month: null, 
+    activeId: state.activeId,
+    lang: currentLang,
+    showLabels: state.showLabels
+  };
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
   document.querySelector('.pill[data-region="all"]').classList.add('active');
   ['toggleNight','toggle24h','toggleCamping','toggleAllYear'].forEach(id => document.getElementById(id).checked = false);
@@ -517,12 +679,8 @@ langBtn.addEventListener('click', () => {
 
 document.querySelectorAll('.lang-option').forEach(option => {
   option.addEventListener('click', () => {
-    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
-    option.classList.add('active');
-    const flag = option.querySelector('.lang-flag').textContent;
-    const code = option.querySelector('.lang-code').textContent;
-    langBtn.querySelector('.lang-flag').textContent = flag;
-    langBtn.querySelector('.lang-code').textContent = code;
+    const lang = option.dataset.lang;
+    loadLanguage(lang);
     langDropdown.classList.remove('show');
   });
 });
@@ -791,13 +949,25 @@ if (monthBtnsMobile) {
 const resetBtnMobile = document.getElementById('resetBtnMobile');
 if (resetBtnMobile) {
   resetBtnMobile.addEventListener('click', () => {
-    state = { region: 'all', nightFishing: false, fullDay: false, camping: false, allYear: false, month: null, activeId: state.activeId };
+    const currentLang = state.lang;
+    state = { 
+      region: 'all', 
+      nightFishing: false, 
+      fullDay: false, 
+      camping: false, 
+      allYear: false, 
+      month: null, 
+      activeId: state.activeId,
+      lang: currentLang,
+      showLabels: state.showLabels
+    };
     document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
     document.querySelector('.pill[data-region="all"]').classList.add('active');
     ['toggleNight','toggle24h','toggleCamping','toggleAllYear'].forEach(id => document.getElementById(id).checked = false);
     document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
     syncDesktopControls();
     updateMap();
+    updateURL();
   });
 }
 
@@ -809,10 +979,25 @@ loadURLParams = function() {
   syncDesktopControls();
 };
 
-// Initial render
-updateMap();
+// Async initialization
+async function init() {
+  // Load URL params first to get language preference
+  loadURLParams();
+  
+  // Load translations
+  await loadTranslations();
+  
+  // Load language data (locations)
+  await loadLanguage(state.lang);
+  
+  // Initial render
+  updateMap();
+  
+  // Map event listeners for label recalculation
+  map.on('move', renderLabels);
+  map.on('moveend', renderLabels);
+  map.on('zoomend', renderLabels);
+}
 
-// Map event listeners for label recalculation
-map.on('move', renderLabels);
-map.on('moveend', renderLabels);
-map.on('zoomend', renderLabels);
+// Start initialization
+init();

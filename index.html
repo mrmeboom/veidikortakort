@@ -14,10 +14,10 @@
 
 <header>
   <img src="assets/icon.png" alt="Veiðikortakort" class="logo-img">
-  <h1 class="desktop-header">Veiðikortakort &mdash; <em>A fisherman's best friend</em></h1>
+  <h1 class="desktop-header">Veiðikortakort &mdash; <em data-i18n="desktop_subtitle">Besti vinur veiðimanna</em></h1>
   <div class="mobile-header header-text">
     <h1>Veiðikortakort</h1>
-    <p class="header-subtitle">Besti vinur veiðimanna</p>
+    <p class="header-subtitle" data-i18n="mobile_subtitle">Besti vinur veiðimanna</p>
   </div>
   <div class="lang-selector">
     <button class="lang-btn" id="langBtn">
@@ -43,9 +43,9 @@
   <!-- Filter sidebar -->
   <div class="filters">
     <div class="filter-section">
-      <h3>Landssvæði</h3>
+      <h3 data-i18n="section_region">Landssvæði</h3>
       <div class="region-pills" id="regionPills">
-        <button class="pill active" data-region="all">Allt land</button>
+        <button class="pill active" data-region="all" data-i18n="region_all">Allt land</button>
         <button class="pill" data-region="Suðurland">Suðurland</button>
         <button class="pill" data-region="Vesturland">Vesturland</button>
         <button class="pill" data-region="Norðurland">Norðurland</button>
@@ -56,8 +56,8 @@
     <div class="filter-section no-title">
       <div class="toggle-row">
         <div class="toggle-label">
-          Vatnsnöfn
-          <small>Sýna nöfn á korti</small>
+          <span data-i18n="toggle_lake_names">Vatnsnöfn</span>
+          <small data-i18n="toggle_lake_names_desc">Sýna nöfn á korti</small>
         </div>
         <label class="toggle">
           <input type="checkbox" id="toggleLabels">
@@ -68,11 +68,11 @@
     </div>
 
     <div class="filter-section">
-      <h3>Veiðiskilyrði</h3>
+      <h3 data-i18n="section_conditions">Veiðiskilyrði</h3>
       <div class="toggle-row">
         <div class="toggle-label">
-          Næturveiðar
-          <small>Veiðar eftir kl. 22</small>
+          <span data-i18n="toggle_night">Næturveiðar</span>
+          <small data-i18n="toggle_night_desc">Veiðar eftir kl. 22</small>
         </div>
         <label class="toggle">
           <input type="checkbox" id="toggleNight">
@@ -82,8 +82,8 @@
       </div>
       <div class="toggle-row">
         <div class="toggle-label">
-          Sólarhringsveiðar
-          <small>24h leyfilegar</small>
+          <span data-i18n="toggle_24h">Sólarhringsveiðar</span>
+          <small data-i18n="toggle_24h_desc">24h leyfilegar</small>
         </div>
         <label class="toggle">
           <input type="checkbox" id="toggle24h">
@@ -93,8 +93,8 @@
       </div>
       <div class="toggle-row">
         <div class="toggle-label">
-          Tjaldmöguleikar
-          <small>Tjaldstæði á svæðinu</small>
+          <span data-i18n="toggle_camping">Tjaldmöguleikar</span>
+          <small data-i18n="toggle_camping_desc">Tjaldstæði á svæðinu</small>
         </div>
         <label class="toggle">
           <input type="checkbox" id="toggleCamping">
@@ -104,8 +104,8 @@
       </div>
       <div class="toggle-row">
         <div class="toggle-label">
-          Opið allt árið
-          <small>Engin lokun á vetrum</small>
+          <span data-i18n="toggle_allyear">Opið allt árið</span>
+          <small data-i18n="toggle_allyear_desc">Engin lokun á vetrum</small>
         </div>
         <label class="toggle">
           <input type="checkbox" id="toggleAllYear">
@@ -116,33 +116,33 @@
     </div>
 
     <div class="filter-section">
-      <h3>Opið á þessum mánuði</h3>
+      <h3 data-i18n="section_months">Opið á þessum mánuði</h3>
       <div class="month-row" id="monthBtns">
-        <button class="month-btn" data-month="4">Apr</button>
-        <button class="month-btn" data-month="5">Maí</button>
-        <button class="month-btn" data-month="6">Jún</button>
-        <button class="month-btn" data-month="7">Júl</button>
-        <button class="month-btn" data-month="8">Ágú</button>
-        <button class="month-btn" data-month="9">Sep</button>
-        <button class="month-btn" data-month="10">Okt</button>
-        <button class="month-btn" data-month="11">Nóv</button>
+        <button class="month-btn" data-month="4" data-i18n-month="3">Apr</button>
+        <button class="month-btn" data-month="5" data-i18n-month="4">Maí</button>
+        <button class="month-btn" data-month="6" data-i18n-month="5">Jún</button>
+        <button class="month-btn" data-month="7" data-i18n-month="6">Júl</button>
+        <button class="month-btn" data-month="8" data-i18n-month="7">Ágú</button>
+        <button class="month-btn" data-month="9" data-i18n-month="8">Sep</button>
+        <button class="month-btn" data-month="10" data-i18n-month="9">Okt</button>
+        <button class="month-btn" data-month="11" data-i18n-month="10">Nóv</button>
       </div>
     </div>
 
-    <button class="reset-btn" id="resetBtn">↺ Hreinsa síur</button>
+    <button class="reset-btn" id="resetBtn">↺ <span data-i18n="btn_reset">Hreinsa síur</span></button>
   </div>
 
   <!-- Map -->
   <div class="map-container">
     <div id="map"></div>
     <div class="map-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#3972b9"></div> Venjulegt veiðisvæði</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#313b4d"></div> 24h / Næturveiðar</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#a3adbc"></div> Utan síu</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3972b9"></div> <span data-i18n="legend_standard">Venjulegt veiðisvæði</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#313b4d"></div> <span data-i18n="legend_special">24h / Næturveiðar</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a3adbc"></div> <span data-i18n="legend_dimmed">Utan síu</span></div>
     </div>
     <div class="empty-overlay" id="emptyOverlay">
-      <strong>Engin svæði fundust</strong>
-      <p>Prófaðu að breyta síunum</p>
+      <strong data-i18n="empty_title">Engin svæði fundust</strong>
+      <p data-i18n="empty_desc">Prófaðu að breyta síunum</p>
     </div>
   </div>
 
@@ -156,8 +156,8 @@
   <div class="bottom-sheet" id="bottomSheet">
     <div class="bottom-sheet-handle"></div>
     <div class="bottom-sheet-header">
-      <div class="bottom-sheet-title">Síur</div>
-      <button class="bottom-sheet-close" id="bottomSheetClose">✕</button>
+      <div class="bottom-sheet-title" data-i18n="mobile_filter_title">Síur</div>
+      <button class="bottom-sheet-close" id="bottomSheetClose" data-i18n="mobile_close">✕</button>
     </div>
     <div class="bottom-sheet-content">
       <div class="filter-section">
@@ -174,8 +174,8 @@
       <div class="filter-section no-title">
         <div class="toggle-row">
           <div class="toggle-label">
-            Vatnsnöfn
-            <small>Sýna nöfn á korti</small>
+            <span data-i18n="toggle_lake_names">Vatnsnöfn</span>
+            <small data-i18n="toggle_lake_names_desc">Sýna nöfn á korti</small>
           </div>
           <label class="toggle">
             <input type="checkbox" id="toggleLabelsMobile">
@@ -186,11 +186,11 @@
       </div>
 
       <div class="filter-section">
-        <h3>Veiðiskilyrði</h3>
+        <h3 data-i18n="section_conditions">Veiðiskilyrði</h3>
         <div class="toggle-row">
           <div class="toggle-label">
-            Næturveiðar
-            <small>Veiðar eftir kl. 22</small>
+            <span data-i18n="toggle_night">Næturveiðar</span>
+            <small data-i18n="toggle_night_desc">Veiðar eftir kl. 22</small>
           </div>
           <label class="toggle">
             <input type="checkbox" id="toggleNightMobile">
@@ -200,8 +200,8 @@
         </div>
         <div class="toggle-row">
           <div class="toggle-label">
-            Sólarhringsveiðar
-            <small>24h leyfilegar</small>
+            <span data-i18n="toggle_24h">Sólarhringsveiðar</span>
+            <small data-i18n="toggle_24h_desc">24h leyfilegar</small>
           </div>
           <label class="toggle">
             <input type="checkbox" id="toggle24hMobile">
@@ -211,8 +211,8 @@
         </div>
         <div class="toggle-row">
           <div class="toggle-label">
-            Tjaldmöguleikar
-            <small>Tjaldstæði á svæðinu</small>
+            <span data-i18n="toggle_camping">Tjaldmöguleikar</span>
+            <small data-i18n="toggle_camping_desc">Tjaldstæði á svæðinu</small>
           </div>
           <label class="toggle">
             <input type="checkbox" id="toggleCampingMobile">
@@ -222,8 +222,8 @@
         </div>
         <div class="toggle-row">
           <div class="toggle-label">
-            Opið allt árið
-            <small>Engin lokun á vetrum</small>
+            <span data-i18n="toggle_allyear">Opið allt árið</span>
+            <small data-i18n="toggle_allyear_desc">Engin lokun á vetrum</small>
           </div>
           <label class="toggle">
             <input type="checkbox" id="toggleAllYearMobile">
@@ -234,20 +234,20 @@
       </div>
 
       <div class="filter-section">
-        <h3>Opið á þessum mánuði</h3>
+        <h3 data-i18n="section_months">Opið á þessum mánuði</h3>
         <div class="month-row" id="monthBtnsMobile">
-          <button class="month-btn" data-month="4">Apr</button>
-          <button class="month-btn" data-month="5">Maí</button>
-          <button class="month-btn" data-month="6">Jún</button>
-          <button class="month-btn" data-month="7">Júl</button>
-          <button class="month-btn" data-month="8">Ágú</button>
-          <button class="month-btn" data-month="9">Sep</button>
-          <button class="month-btn" data-month="10">Okt</button>
-          <button class="month-btn" data-month="11">Nóv</button>
+          <button class="month-btn" data-month="4" data-i18n-month="3">Apr</button>
+          <button class="month-btn" data-month="5" data-i18n-month="4">Maí</button>
+          <button class="month-btn" data-month="6" data-i18n-month="5">Jún</button>
+          <button class="month-btn" data-month="7" data-i18n-month="6">Júl</button>
+          <button class="month-btn" data-month="8" data-i18n-month="7">Ágú</button>
+          <button class="month-btn" data-month="9" data-i18n-month="8">Sep</button>
+          <button class="month-btn" data-month="10" data-i18n-month="9">Okt</button>
+          <button class="month-btn" data-month="11" data-i18n-month="10">Nóv</button>
         </div>
       </div>
 
-      <button class="reset-btn" id="resetBtnMobile">↺ Hreinsa síur</button>
+      <button class="reset-btn" id="resetBtnMobile">↺ <span data-i18n="btn_reset">Hreinsa síur</span></button>
     </div>
   </div>
 
@@ -257,7 +257,6 @@
   </div>
 </div>
 
-<script src="data.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

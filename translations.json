@@ -1,0 +1,423 @@
+{
+  "app_title": "Veiðikortakort",
+
+  "desktop_subtitle": {
+    "is": "Besti vinur veiðimanna",
+    "en": "A fisherman's best friend",
+    "nl": "De beste vriend van de visser",
+    "de": "Der beste Freund des Anglers",
+    "fr": "Le meilleur ami du pêcheur",
+    "da": "Fiskerens bedste ven",
+    "it": "Il miglior amico del pescatore",
+    "es": "El mejor amigo del pescador",
+    "pl": "Najlepszy przyjaciel wędkarza"
+  },
+
+  "section_region": {
+    "is": "Landssvæði",
+    "en": "Region",
+    "nl": "Regio",
+    "de": "Region",
+    "fr": "Région",
+    "da": "Region",
+    "it": "Regione",
+    "es": "Región",
+    "pl": "Region"
+  },
+
+  "region_all": {
+    "is": "Allt land",
+    "en": "All regions",
+    "nl": "Alle regio's",
+    "de": "Alle Regionen",
+    "fr": "Toutes les régions",
+    "da": "Alle regioner",
+    "it": "Tutte le regioni",
+    "es": "Todas las regiones",
+    "pl": "Wszystkie regiony"
+  },
+
+  "toggle_lake_names": {
+    "is": "Vatnsnöfn",
+    "en": "Lake names",
+    "nl": "Meernamen",
+    "de": "Seenamen",
+    "fr": "Noms des lacs",
+    "da": "Sønavne",
+    "it": "Nomi dei laghi",
+    "es": "Nombres de lagos",
+    "pl": "Nazwy jezior"
+  },
+
+  "toggle_lake_names_desc": {
+    "is": "Sýna nöfn á korti",
+    "en": "Show names on map",
+    "nl": "Namen op kaart tonen",
+    "de": "Namen auf Karte anzeigen",
+    "fr": "Afficher les noms sur la carte",
+    "da": "Vis navne på kortet",
+    "it": "Mostra nomi sulla mappa",
+    "es": "Mostrar nombres en el mapa",
+    "pl": "Pokaż nazwy na mapie"
+  },
+
+  "section_conditions": {
+    "is": "Veiðiskilyrði",
+    "en": "Fishing conditions",
+    "nl": "Visomstandigheden",
+    "de": "Angelbedingungen",
+    "fr": "Conditions de pêche",
+    "da": "Fiskebetingelser",
+    "it": "Condizioni di pesca",
+    "es": "Condiciones de pesca",
+    "pl": "Warunki wędkowania"
+  },
+
+  "toggle_night": {
+    "is": "Næturveiðar",
+    "en": "Night fishing",
+    "nl": "Nachtvissen",
+    "de": "Nachtangeln",
+    "fr": "Pêche de nuit",
+    "da": "Natfiskeri",
+    "it": "Pesca notturna",
+    "es": "Pesca nocturna",
+    "pl": "Nocne wędkowanie"
+  },
+
+  "toggle_night_desc": {
+    "is": "Veiðar eftir kl. 22",
+    "en": "Fishing after 10 PM",
+    "nl": "Vissen na 22:00",
+    "de": "Angeln nach 22 Uhr",
+    "fr": "Pêche après 22 h",
+    "da": "Fiskeri efter kl. 22",
+    "it": "Pesca dopo le 22:00",
+    "es": "Pesca después de las 22 h",
+    "pl": "Wędkowanie po 22:00"
+  },
+
+  "toggle_24h": {
+    "is": "Sólarhringsveiðar",
+    "en": "24-hour fishing",
+    "nl": "24-uur vissen",
+    "de": "24-Stunden-Angeln",
+    "fr": "Pêche 24 h sur 24",
+    "da": "Døgnfiskeri",
+    "it": "Pesca 24 ore su 24",
+    "es": "Pesca 24 horas",
+    "pl": "Wędkowanie całą dobę"
+  },
+
+  "toggle_24h_desc": {
+    "is": "24h leyfilegar",
+    "en": "24h permitted",
+    "nl": "24u toegestaan",
+    "de": "24h erlaubt",
+    "fr": "24 h autorisées",
+    "da": "24h tilladt",
+    "it": "24h consentite",
+    "es": "24 h permitidas",
+    "pl": "24h dozwolone"
+  },
+
+  "toggle_camping": {
+    "is": "Tjaldmöguleikar",
+    "en": "Camping",
+    "nl": "Kamperen",
+    "de": "Camping",
+    "fr": "Camping",
+    "da": "Camping",
+    "it": "Campeggio",
+    "es": "Acampada",
+    "pl": "Kemping"
+  },
+
+  "toggle_camping_desc": {
+    "is": "Tjaldstæði á svæðinu",
+    "en": "Campsite on site",
+    "nl": "Kampeerplaats aanwezig",
+    "de": "Campingplatz vor Ort",
+    "fr": "Camping sur place",
+    "da": "Campingplads på stedet",
+    "it": "Campeggio in loco",
+    "es": "Zona de acampada en el lugar",
+    "pl": "Kemping na miejscu"
+  },
+
+  "toggle_allyear": {
+    "is": "Allt árið",
+    "en": "All year",
+    "nl": "Het hele jaar",
+    "de": "Ganzjährig",
+    "fr": "Toute l'année",
+    "da": "Hele året",
+    "it": "Tutto l'anno",
+    "es": "Todo el año",
+    "pl": "Cały rok"
+  },
+
+  "toggle_allyear_desc": {
+    "is": "Opna allan ársins hring",
+    "en": "Open all year round",
+    "nl": "Het hele jaar geopend",
+    "de": "Ganzjährig geöffnet",
+    "fr": "Ouvert toute l'année",
+    "da": "Åbent hele året",
+    "it": "Aperto tutto l'anno",
+    "es": "Abierto todo el año",
+    "pl": "Otwarte przez cały rok"
+  },
+
+  "section_months": {
+    "is": "Opið á þessum mánuði",
+    "en": "Open in this month",
+    "nl": "Open in deze maand",
+    "de": "In diesem Monat geöffnet",
+    "fr": "Ouvert ce mois-ci",
+    "da": "Åbent i denne måned",
+    "it": "Aperto in questo mese",
+    "es": "Abierto este mes",
+    "pl": "Otwarte w tym miesiącu"
+  },
+
+  "months": {
+    "is": ["Jan", "Feb", "Mar", "Apr", "Maí", "Jún", "Júl", "Ágú", "Sep", "Okt", "Nóv", "Des"],
+    "en": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "nl": ["Jan", "Feb", "Mrt", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"],
+    "de": ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+    "fr": ["Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc"],
+    "da": ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"],
+    "it": ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"],
+    "es": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+    "pl": ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"]
+  },
+
+  "btn_reset": {
+    "is": "Hreinsa síur",
+    "en": "Clear filters",
+    "nl": "Filters wissen",
+    "de": "Filter zurücksetzen",
+    "fr": "Réinitialiser les filtres",
+    "da": "Nulstil filtre",
+    "it": "Azzera filtri",
+    "es": "Borrar filtros",
+    "pl": "Wyczyść filtry"
+  },
+
+  "legend_standard": {
+    "is": "Venjulegt veiðisvæði",
+    "en": "Standard fishing area",
+    "nl": "Standaard visgebied",
+    "de": "Normales Angelgewässer",
+    "fr": "Zone de pêche standard",
+    "da": "Normalt fiskeområde",
+    "it": "Area di pesca standard",
+    "es": "Zona de pesca estándar",
+    "pl": "Standardowy łowisko"
+  },
+
+  "legend_special": {
+    "is": "24h / Næturveiðar",
+    "en": "24h / Night fishing",
+    "nl": "24u / Nachtvissen",
+    "de": "24h / Nachtangeln",
+    "fr": "24 h / Pêche de nuit",
+    "da": "24h / Natfiskeri",
+    "it": "24h / Pesca notturna",
+    "es": "24 h / Pesca nocturna",
+    "pl": "24h / Nocne wędkowanie"
+  },
+
+  "legend_dimmed": {
+    "is": "Utan síu",
+    "en": "Outside filter",
+    "nl": "Buiten filter",
+    "de": "Außerhalb des Filters",
+    "fr": "Hors filtre",
+    "da": "Uden for filter",
+    "it": "Fuori dal filtro",
+    "es": "Fuera del filtro",
+    "pl": "Poza filtrem"
+  },
+
+  "empty_title": {
+    "is": "Engin svæði fundust",
+    "en": "No areas found",
+    "nl": "Geen gebieden gevonden",
+    "de": "Keine Gebiete gefunden",
+    "fr": "Aucune zone trouvée",
+    "da": "Ingen områder fundet",
+    "it": "Nessuna area trovata",
+    "es": "No se encontraron zonas",
+    "pl": "Nie znaleziono obszarów"
+  },
+
+  "empty_desc": {
+    "is": "Prófaðu að breyta síunum",
+    "en": "Try changing the filters",
+    "nl": "Probeer de filters aan te passen",
+    "de": "Filter anpassen",
+    "fr": "Essayez de modifier les filtres",
+    "da": "Prøv at ændre filtrene",
+    "it": "Prova a modificare i filtri",
+    "es": "Intenta cambiar los filtros",
+    "pl": "Spróbuj zmienić filtry"
+  },
+
+  "mobile_filter_title": {
+    "is": "Sía",
+    "en": "Filter",
+    "nl": "Filter",
+    "de": "Filter",
+    "fr": "Filtrer",
+    "da": "Filter",
+    "it": "Filtro",
+    "es": "Filtrar",
+    "pl": "Filtr"
+  },
+
+  "mobile_filter_subtitle": {
+    "is": "Breyta síum",
+    "en": "Adjust filters",
+    "nl": "Filters aanpassen",
+    "de": "Filter anpassen",
+    "fr": "Modifier les filtres",
+    "da": "Tilpas filtre",
+    "it": "Modifica filtri",
+    "es": "Ajustar filtros",
+    "pl": "Dostosuj filtry"
+  },
+
+  "mobile_close": {
+    "is": "Loka",
+    "en": "Close",
+    "nl": "Sluiten",
+    "de": "Schließen",
+    "fr": "Fermer",
+    "da": "Luk",
+    "it": "Chiudi",
+    "es": "Cerrar",
+    "pl": "Zamknij"
+  },
+
+  "info_region": {
+    "is": "Landssvæði",
+    "en": "Region",
+    "nl": "Regio",
+    "de": "Region",
+    "fr": "Région",
+    "da": "Region",
+    "it": "Regione",
+    "es": "Región",
+    "pl": "Region"
+  },
+
+  "info_season": {
+    "is": "Tímabil",
+    "en": "Season",
+    "nl": "Seizoen",
+    "de": "Saison",
+    "fr": "Saison",
+    "da": "Sæson",
+    "it": "Stagione",
+    "es": "Temporada",
+    "pl": "Sezon"
+  },
+
+  "info_price": {
+    "is": "Verð",
+    "en": "Price",
+    "nl": "Prijs",
+    "de": "Preis",
+    "fr": "Prix",
+    "da": "Pris",
+    "it": "Prezzo",
+    "es": "Precio",
+    "pl": "Cena"
+  },
+
+  "info_camping": {
+    "is": "Tjaldsvæði",
+    "en": "Campsite",
+    "nl": "Kampeerplaats",
+    "de": "Campingplatz",
+    "fr": "Camping",
+    "da": "Campingplads",
+    "it": "Campeggio",
+    "es": "Zona de acampada",
+    "pl": "Kemping"
+  },
+
+  "info_accommodation": {
+    "is": "Gisting",
+    "en": "Accommodation",
+    "nl": "Verblijf",
+    "de": "Unterkunft",
+    "fr": "Hébergement",
+    "da": "Overnatning",
+    "it": "Alloggio",
+    "es": "Alojamiento",
+    "pl": "Zakwaterowanie"
+  },
+
+  "info_rules": {
+    "is": "Almennar reglur",
+    "en": "General rules",
+    "nl": "Algemene regels",
+    "de": "Allgemeine Regeln",
+    "fr": "Règles générales",
+    "da": "Generelle regler",
+    "it": "Regole generali",
+    "es": "Normas generales",
+    "pl": "Ogólne zasady"
+  },
+
+  "yes": {
+    "is": "Já",
+    "en": "Yes",
+    "nl": "Ja",
+    "de": "Ja",
+    "fr": "Oui",
+    "da": "Ja",
+    "it": "Sì",
+    "es": "Sí",
+    "pl": "Tak"
+  },
+
+  "no": {
+    "is": "Nei",
+    "en": "No",
+    "nl": "Nee",
+    "de": "Nein",
+    "fr": "Non",
+    "da": "Nej",
+    "it": "No",
+    "es": "No",
+    "pl": "Nie"
+  },
+
+  "price_day": {
+    "is": "/dag",
+    "en": "/day",
+    "nl": "/dag",
+    "de": "/Tag",
+    "fr": "/jour",
+    "da": "/dag",
+    "it": "/giorno",
+    "es": "/día",
+    "pl": "/dzień"
+  },
+
+  "season_year": {
+    "is": "Allt árið",
+    "en": "All year",
+    "nl": "Het hele jaar",
+    "de": "Ganzjährig",
+    "fr": "Toute l'année",
+    "da": "Hele året",
+    "it": "Tutto l'anno",
+    "es": "Todo el año",
+    "pl": "Cały rok"
+  }
+}
