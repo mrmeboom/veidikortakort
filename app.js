@@ -46,11 +46,22 @@ async function loadTranslations() {
 
 // Get translation for a key
 function t(key) {
-  if (!TRANSLATIONS || !TRANSLATIONS[key]) return key;
+  if (!TRANSLATIONS) {
+    console.warn('Translations not loaded yet, key:', key);
+    return key;
+  }
+  if (!TRANSLATIONS[key]) {
+    console.warn('Translation key not found:', key);
+    return key;
+  }
   const value = TRANSLATIONS[key];
   if (typeof value === 'string') return value;
-  if (typeof value === 'object' && value[state.lang]) return value[state.lang];
-  if (typeof value === 'object' && value['is']) return value['is'];
+  if (typeof value === 'object') {
+    if (value[state.lang]) return value[state.lang];
+    if (value['is']) return value['is'];
+    if (value['en']) return value['en'];
+  }
+  console.warn('Translation value is not string or object:', key, value);
   return key;
 }
 
