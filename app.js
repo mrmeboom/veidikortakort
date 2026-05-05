@@ -46,14 +46,8 @@ async function loadTranslations() {
 
 // Get translation for a key
 function t(key) {
-  if (!TRANSLATIONS) {
-    console.warn('Translations not loaded yet, key:', key);
-    return key;
-  }
-  if (!TRANSLATIONS[key]) {
-    console.warn('Translation key not found:', key);
-    return key;
-  }
+  if (!TRANSLATIONS) return key;
+  if (!TRANSLATIONS[key]) return key;
   const value = TRANSLATIONS[key];
   if (typeof value === 'string') return value;
   if (typeof value === 'object') {
@@ -61,7 +55,6 @@ function t(key) {
     if (value['is']) return value['is'];
     if (value['en']) return value['en'];
   }
-  console.warn('Translation value is not string or object:', key, value);
   return key;
 }
 
@@ -113,9 +106,7 @@ function updateUI() {
 
 // Load location data for a language
 async function loadLanguage(lang) {
-  console.log('loadLanguage called with:', lang);
   if (!['is', 'en', 'da', 'nl', 'fr', 'de', 'it', 'pl', 'es'].includes(lang)) {
-    console.log('Invalid language, defaulting to is');
     lang = 'is';
   }
   
@@ -691,8 +682,7 @@ langBtn.addEventListener('click', () => {
 });
 
 document.querySelectorAll('.lang-option').forEach(option => {
-  option.addEventListener('click', (e) => {
-    console.log('Language option clicked:', option.dataset.lang);
+  option.addEventListener('click', () => {
     const lang = option.dataset.lang;
     loadLanguage(lang);
     langDropdown.classList.remove('show');

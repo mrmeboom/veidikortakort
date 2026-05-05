@@ -25,16 +25,28 @@ The existing veidikortid.is website presents fishing locations as a flat list of
 - **Non-matching markers dim** rather than disappear to preserve spatial context
 - **Detail panel** with season dates, daily hours, fish species, feature grid, and link to original page
 - **Visual style** follows veidikortid.is: dark forest green, gold accents, serif/sans font pairing
+- **Multi-language support** (9 languages: IS, EN, NL, DE, FR, DA, IT, ES, PL) with translated location data and UI
 
 ## Project Structure
 
 ```
 veidikortakort/
-├── index.html      # Main HTML structure
-├── style.css       # All styling
-├── app.js          # Map logic and UI controls
-├── data.js         # Hardcoded data for 38 locations
-└── README.md       # This file
+├── index.html         # Main HTML structure
+├── style.css          # All styling
+├── app.js             # Map logic, UI controls, and language switching
+├── translations.json  # UI text translations for 9 languages
+├── locales/           # Location data translations
+│   ├── data.is.js     # Icelandic (38 locations)
+│   ├── data.en.js     # English
+│   ├── data.da.js     # Danish
+│   ├── data.nl.js     # Dutch
+│   ├── data.de.js     # German
+│   ├── data.fr.js     # French
+│   ├── data.it.js     # Italian
+│   ├── data.es.js     # Spanish
+│   └── data.pl.js     # Polish
+├── assets/            # Images and icons
+└── README.md          # This file
 ```
 
 ## Setup
@@ -52,7 +64,7 @@ No build step required. Simply:
 
 ## Data
 
-All 38 fishing locations are hardcoded in `data.js`. The data includes:
+All 38 fishing locations are stored in language-specific files in `locales/`. Each file contains:
 
 - Location name and region
 - GPS coordinates
