@@ -478,7 +478,7 @@ function renderDetailPanel(id) {
     </div>
 
     <a href="${loc.url}" target="_blank" class="detail-link">
-      ${loc.fullPageLabel || 'Sjá fulla síðu á veidikortid.is'} →
+      ${t('fullPageLabel')} →
     </a>
   `;
 }
